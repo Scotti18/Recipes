@@ -1,0 +1,19 @@
+-- SQLite
+CREATE TABLE users (id INTEGER, username TEXT NOT NULL, hash TEXT NOT NULL, PRIMARY KEY(id));
+
+CREATE TABLE recipes (id INTEGER PRIMARY KEY, title TEXT NOT NULL, instructions TEXT NOT NULL);
+
+CREATE TABLE ingredients (id INTEGER PRIMARY KEY, ingredient TEXT NOT NULL);
+
+CREATE TABLE ing_rec (RecipeID INTEGER, IngID INTEGER,FOREIGN KEY(RecipeID) REFERENCES recipes(id), FOREIGN KEY(IngID) REFERENCES ingredients(id));
+
+CREATE TABLE user_rec (UserID INTEGER, RecID INTEGER, FOREIGN KEY(UserID) REFERENCES users(id), FOREIGN KEY(RecID) REFERENCES recipes(id));
+
+DELETE FROM users;
+DELETE FROM recipes;
+DELETE FROM ingredients;
+DELETE FROM ing_rec;
+DELETE FROM user_rec;
+
+SELECT * FROM users;
+SELECT * FROM ingredients;

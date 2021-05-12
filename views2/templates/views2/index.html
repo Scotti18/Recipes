@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block main %}
+<style>
+    .wrapper {
+        display: grid;
+        grid-gap: 3rem;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .card {
+        width: 20rem;
+
+    }
+</style>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Search Google Recipes</h1>
+        <p class="lead text-muted">Get the top nine results of Recipes for your query!</p>
+        <form action="/" method="POST">
+            <div class="input-group mb-3">
+                <input type="text" name="query" class="form-control">
+            </div>
+            <p>
+                <button type="submit" name="submit" value="search" class="btn btn-primary my-2">Recipe Search</button>
+            </p>
+        </form>
+    </div>
+</section>
+
+
+<div class="wrapper">
+
+    {% for website in websites %}
+
+    <div class="card">
+        <img src="{{ website.image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{ website.title }}</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="{{ website.url }}" class="btn btn-primary" target="_blank">View Recipe</a>
+            <form action="/ingredients" , method="POST">
+                <button href="#" class="btn btn-primary" value="{{ website.url }}" name="search_url">Add to
+                    cookbook</button>
+            </form>
+
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+
+
+
+
+    <!-- <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+        </div>
+    </div>
+    <div class="card">
+        <img src="/static/images/beach.JPG" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">View Recipe</a>
+            <a href="#" class="btn btn-primary">Add to cookbook</a>
+        </div>
+    </div>
+
+</div> -->
+
+    {% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block main %}
+
+
+{% for item in shopList %}
+<input type="checkbox">
+<ul>
+    {{ item }}
+</ul>
+
+{% endfor %}
+
+{% endblock %}
+
+<!-- <form action="/ingredients" , method="POST">
+                <button href="#" class="btn btn-primary" value="{{ website.url }}" name="search_url">Add to
+                    cookbook</button>
+            </form> -->
