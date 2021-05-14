@@ -22,15 +22,17 @@ def login():
 
         # check if username exists in database
         user = get_user(username)
-        if len(user) == 0:
+        if not user:
+            return "Fail"
+        if user.username != username:
             return "Username does not exist"
 
         # check if entered password and stored password match
-        if not check_password_hash(user[0][2], password):
+        if not check_password_hash(user.pw_hash, password):
             return "Username and password do not match"
 
         # assign a session to @login_required
-        session["user_id"] = user[0][0]
+        session["user_id"] = user.id
 
         # redirect to main page with status logged in
         return redirect("/")

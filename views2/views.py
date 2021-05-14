@@ -2,9 +2,9 @@ from .helpers import key_exists, login_required
 import requests
 from flask import Blueprint, render_template, request, session, redirect
 from recipe_scrapers import scrape_me
+
 from .models import (
-    commit_con,
-    connect_recipe_with_ingredient,
+    connect_recipe_with_ingredients,
     connect_user_with_recipe,
     get_all_ingredients,
     get_all_recipes,
@@ -13,7 +13,6 @@ from .models import (
     get_ingredients_for_recipe,
     get_ingredients_for_user,
     get_user_recipes_all,
-    get_user_recipes_name,
     insert_new_ingredient,
     insert_new_recipe,
 )
@@ -101,11 +100,12 @@ def ingredients():
             rec_ingredients = "No ingredients for recipe"
 
         # check if recipe is already in the active users' database
-        users_recipes = get_user_recipes_name(session["user_id"])
-        for title in users_recipes:
-            # if user has already added recipe -> redirect to cookbook without changing
-            if rec_title == title[0]:
-                return redirect("/ingredients")
+        users_recipes = get_user_recipes_all(session["user_id"])
+        if len(users_recipes) != 0:
+            for user_recipe in users_recipes:
+                # if user has already added recipe -> redirect to cookbook without changing
+                if rec_title == user_recipe.title:
+                    return redirect("/ingredients")
 
         # get all ingredients from database
         ing_ids = []
@@ -129,8 +129,8 @@ def ingredients():
 
             # get id for that particular ingredient and store in ingredient id list
             ing_id = get_ingredient_id(ingredient)
-            if len(ing_id) != 0:
-                ing_ids.append(ing_id[0][0])
+            if ing_id:
+                ing_ids.append(ing_id)
 
         # add recipe to database only if not already in database
         allRecipes = get_all_recipes()
@@ -147,13 +147,10 @@ def ingredients():
         # only if recipe doesnt exist already
         if counter2 == 0:
             # connect recipe with all its ingredients
-            for iID in ing_ids:
-                connect_recipe_with_ingredient(rec_id[0][0], iID)
+            connect_recipe_with_ingredients(rec_id, ing_ids)
 
         # connect user to the recipe
-        connect_user_with_recipe(session["user_id"], rec_id[0][0])
-
-        commit_con()
+        connect_user_with_recipe(session["user_id"], rec_id)
 
         # redirect to coobook using GET
         return redirect("/ingredients")
@@ -170,16 +167,16 @@ def ingredients():
             # create dictionary of the recipe
             recipe_dict = {}
             ingredient_list = []
-            recipe_dict["id"] = str(recipe[2])
-            recipe_dict["title"] = recipe[0]
-            recipe_dict["instructions"] = recipe[1]
+            recipe_dict["id"] = recipe.id
+            recipe_dict["title"] = recipe.title
+            recipe_dict["instructions"] = recipe.instructions
 
             # select all ingredients for that recipe
-            ingredients_tup_list = get_ingredients_for_recipe(recipe[2])
+            ingredients_list = get_ingredients_for_recipe(recipe.id)
 
             # add ingredients to a list of ingredients and add to recipe dict
-            for ingredient in ingredients_tup_list:
-                ingredient_list.append(ingredient[0])
+            for ing in ingredients_list:
+                ingredient_list.append(ing.ingredient)
             recipe_dict["ingredients"] = ingredient_list
 
             # add dict of recipe to a list of recipes dicts
@@ -196,6 +193,6 @@ def shoplist():
 
     shoppingList = []
     for item in shoplist:
-        shoppingList.append(item[0])
+        shoppingList.append(item.ingredient)
 
     return render_template("shoppingList.html", shopList=shoppingList)
