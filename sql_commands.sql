@@ -10,3 +10,4 @@ DELETE FROM ingredients;
 DELETE FROM recipes;
 DELETE FROM users_recipes;
 DELETE FROM recipes_ingredients;
+DELETE FROM users;

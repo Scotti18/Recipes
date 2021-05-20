@@ -1,5 +1,5 @@
 from .models import get_user, get_usernames, store_new_user
-from flask import Blueprint, request, session, redirect, render_template
+from flask import Blueprint, request, session, redirect, render_template, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint("auth", __name__, template_folder="templates/auth")
@@ -33,8 +33,10 @@ def login():
 
         # assign a session to @login_required
         session["user_id"] = user.id
+        session["urls"] = []
 
         # redirect to main page with status logged in
+        flash("Login Successfull", "info")
         return redirect("/")
 
     else:
@@ -49,6 +51,7 @@ def logout():
     session.clear()
 
     # Redirect user to login form
+    flash("Logout Successfull", "info")
     return redirect("/")
 
 
@@ -81,6 +84,7 @@ def register():
         pw_hash = generate_password_hash(password)
         store_new_user(new_user, pw_hash)
 
+        flash("Registered successfully", "info")
         return redirect("/")
 
     else:

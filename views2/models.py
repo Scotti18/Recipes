@@ -147,9 +147,9 @@ def get_all_recipes():
     return allRecipes
 
 
-def insert_new_recipe(rec_title, rec_instructions):
+def insert_new_recipe(rec_title, rec_instructions, rec_url, rec_img):
     session = Session()
-    new_recipe = Recipe(rec_title, rec_instructions, "nutri", "Url", "Img")
+    new_recipe = Recipe(rec_title, rec_instructions, "nutris", rec_url, rec_img)
     session.add(new_recipe)
     session.commit()
     session.close()
@@ -229,3 +229,43 @@ def get_ingredients_for_user(user_id):
             shoplist.append(ing)
     session.close()
     return shoplist
+
+
+def disconnect_recipe_from_user(rec_title, user_id):
+    session = Session()
+    user = session.query(User).filter(User.id == user_id).first()
+    recipe_todelete = session.query(Recipe).filter(Recipe.title == rec_title).first()
+
+    all_recipes = (
+        session.query(User)
+        .options(lazyload(User.recipes))
+        .filter(User.id == user_id)
+        .all()
+    )
+    all_recipes = all_recipes[0].recipes
+
+    new_recipes = []
+    for recipe in all_recipes:
+        if recipe != recipe_todelete:
+            new_recipes.append(recipe)
+
+    user.recipes = new_recipes
+
+    if len(recipe_todelete.users) == 0:
+
+        ingredients_list = (
+            session.query(Recipe)
+            .options(lazyload(Recipe.ingredients))
+            .filter(Recipe.id == recipe_todelete.id)
+            .all()
+        )
+        ingredients_list = ingredients_list[0].ingredients
+        for ingredient in ingredients_list:
+            if len(ingredient.recipes) == 1:
+                session.delete(ingredient)
+
+        session.delete(recipe_todelete)
+
+    session.add(user)
+    session.commit()
+    session.close()

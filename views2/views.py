@@ -1,6 +1,6 @@
 from .helpers import key_exists, login_required
 import requests
-from flask import Blueprint, render_template, request, session, redirect
+from flask import Blueprint, render_template, request, session, redirect, flash
 from recipe_scrapers import scrape_me
 
 from .models import (
@@ -15,9 +15,15 @@ from .models import (
     get_user_recipes_all,
     insert_new_ingredient,
     insert_new_recipe,
+    disconnect_recipe_from_user,
 )
 
-views = Blueprint("views", __name__, template_folder="templates/views2")
+views = Blueprint(
+    "views",
+    __name__,
+    template_folder="../views2/templates/views2",
+    static_folder="../views2/static/views2",
+)
 
 
 @views.route("/", methods=["GET", "POST"])
@@ -69,7 +75,6 @@ def index():
         return render_template("index.html", websites=websites)
 
     else:
-        # render index.html without search results
         return render_template("index.html")
 
 
@@ -98,6 +103,9 @@ def ingredients():
         rec_ingredients = scraper.ingredients()
         if not rec_ingredients:
             rec_ingredients = "No ingredients for recipe"
+        rec_image = scraper.image()
+        if not rec_image:
+            rec_image = "/static/images/beach.JPG"
 
         # check if recipe is already in the active users' database
         users_recipes = get_user_recipes_all(session["user_id"])
@@ -139,7 +147,7 @@ def ingredients():
             if rec_title == recipe[0]:
                 counter2 += 1
         if counter2 == 0:
-            insert_new_recipe(rec_title, rec_instructions)
+            insert_new_recipe(rec_title, rec_instructions, scrape_url, rec_image)
 
         # get id of that particular recipe
         rec_id = get_id_of_existing_or_inserted_recipe(rec_title)
@@ -153,6 +161,7 @@ def ingredients():
         connect_user_with_recipe(session["user_id"], rec_id)
 
         # redirect to coobook using GET
+        flash("Recipe added to Cookbook", "info")
         return redirect("/ingredients")
 
     # when GET
@@ -170,6 +179,8 @@ def ingredients():
             recipe_dict["id"] = recipe.id
             recipe_dict["title"] = recipe.title
             recipe_dict["instructions"] = recipe.instructions
+            recipe_dict["url"] = recipe.url
+            recipe_dict["img"] = recipe.image
 
             # select all ingredients for that recipe
             ingredients_list = get_ingredients_for_recipe(recipe.id)
@@ -196,3 +207,17 @@ def shoplist():
         shoppingList.append(item.ingredient)
 
     return render_template("shoppingList.html", shopList=shoppingList)
+
+
+@login_required
+@views.route("/delete", methods=["GET", "POST"])
+def delete():
+    if request.method == "POST":
+        recipe = request.form.get("delete")
+        disconnect_recipe_from_user(recipe, session["user_id"])
+
+        flash("Recipe removed from cookbook", "info")
+        return redirect("/ingredients")
+
+    if request.method == "GET":
+        return redirect("/ingredients")
