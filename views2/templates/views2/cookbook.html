@@ -7,7 +7,25 @@ Index
 {% block main %}
 
 <style>
+    .main_header {
+        text-align: center;
+    }
+
     .recipe_header {
+        display: flex;
+        margin: auto;
+        max-width: 800px;
+        margin-top: 80px;
+        margin-bottom: 80px;
+    }
+
+    .recipe_header:nth-of-type(1) {
+        margin-top: 20px;
+    }
+
+
+
+    /* .home>.recipe_header {
         display: flex;
         margin: auto;
         max-width: 800px;
@@ -15,23 +33,25 @@ Index
         margin-bottom: 50px;
     }
 
+    .home>.recipe_header~.recipe_header {
+        margin-top: 0px;
+    } */
+
+
     .recipe_title {
-        flex: 1;
-        margin-right: 30px;
+        flex: 1.2;
     }
 
     .recipe_image {
-        flex: 1;
+        flex: 0.8;
+        text-align: right;
     }
 
     .recipe_image img {
         width: 100%;
         height: 100%;
-        max-height: 400px;
-        max-width: 270px;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
+        max-height: 295px;
+        max-width: 260px;
     }
 
     .delete_button {
@@ -43,10 +63,17 @@ Index
         display: inline-block;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: 1100px) {
         .recipe_image img {
-            max-height: 250px;
-            max-width: 173px;
+            max-height: 230px;
+            max-width: 200px;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .recipe_image img {
+            max-height: 215px;
+            max-width: 195px;
         }
 
         .accordion-button-collapsed {
@@ -67,9 +94,13 @@ Index
 </style>
 
 
+<div class="main_header">
+    <h1>Your Cookbook</h1>
+</div>
+
 {% for recipe in recipes %}
 <div class="recipe_header">
-    <div class="recipe_title">
+    <div class="{{ 'recipe_title ' ~ recipe.id }}">
         <h2>{{ recipe.title }}</h2>
 
         <a href="{{ recipe.url }}" target="_blank" id="recipe_url">Go to recipe </a>
@@ -86,7 +117,9 @@ Index
                 <div id="{{ 'one' ~ recipe.id }}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
                     data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        {{ recipe.ingredients }}
+                        {% for ing in recipe.ingredients %}
+                        <li>{{ ing }}</li>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

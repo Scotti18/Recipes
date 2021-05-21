@@ -5,6 +5,18 @@ Log In
 {% endblock %}
 
 {% block main %}
+<style>
+    body {
+        text-align: center;
+    }
+
+    form {
+        width: fit-content;
+        margin: auto;
+    }
+</style>
+
+
 <form action="/auth/login" method="post">
     <div class="form-group">
         <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">

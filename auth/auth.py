@@ -13,23 +13,28 @@ def login():
         # request and check for username
         username = request.form.get("username")
         if not username:
-            return "Enter Username"
+            flash("Enter Username")
+            return redirect("/")
 
         # get and check for password
         password = request.form.get("password")
         if not password:
-            return "Enter password"
+            flash("Enter Password")
+            return redirect("/")
 
         # check if username exists in database
         user = get_user(username)
         if not user:
-            return "Fail"
+            flash("Username does not exist")
+            return redirect("/")
         if user.username != username:
-            return "Username does not exist"
+            flash("Username does not exist")
+            return redirect("/")
 
         # check if entered password and stored password match
         if not check_password_hash(user.pw_hash, password):
-            return "Username and password do not match"
+            flash("Username and Password do not match")
+            return redirect("/")
 
         # assign a session to @login_required
         session["user_id"] = user.id
@@ -62,23 +67,27 @@ def register():
         # get and check for a entered username
         new_user = request.form.get("username")
         if not new_user:
-            return "Enter Username!"
+            flash("Enter Username")
+            return redirect("/auth/register")
 
         # check if username exists in database
         users = get_usernames()
         for user in users:
             print(user[0])
             if new_user == user[0]:
-                return "Username already exists"
+                flash("Username already exists")
+                return redirect("/auth/register")
 
         # get and check for password
         password = request.form.get("password")
         if not password:
-            return "Enter Password"
+            flash("Enter Password")
+            return redirect("/auth/register")
 
         # check if password and confirmation match
         if password != request.form.get("confirmation"):
-            return "Passwords do not match"
+            flash("Passwords do not match")
+            return redirect("/auth/register")
 
         # store username, and a hased password in database
         pw_hash = generate_password_hash(password)

@@ -33,11 +33,6 @@ def create_app():
     app.config["SECRET_KEY"] = "some_random_key"
     Session(app)
 
-    @app.before_request
-    def before_request():
-        session.permanent = True
-        app.permanent_session_lifetime = timedelta(minutes=5)
-
     from .views2.views import views
     from .auth.auth import auth
 
