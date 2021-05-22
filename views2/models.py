@@ -1,11 +1,10 @@
-from requests.sessions import session
+from requests.sessions import session, should_bypass_proxies
 from sqlalchemy import create_engine, Column, Integer, String, Sequence, Table
 from sqlalchemy.engine import create_engine
 
 from sqlalchemy.orm import (
     declarative_base,
     lazyload,
-    relation,
     relationship,
     sessionmaker,
 )
@@ -30,6 +29,13 @@ users_recipes = Table(
     Column("recipe_id", Integer, ForeignKey("recipes.id")),
 )
 
+users_shoplists = Table(
+    "users_shoplists",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id")),
+    Column("ingredient_id", Integer, ForeignKey("ingredients.id")),
+)
+
 recipes_ingredients = Table(
     "recipes_ingredients",
     Base.metadata,
@@ -46,14 +52,19 @@ class User(Base):
     first_name = Column(String)
     surname = Column(String)
     pw_hash = Column(String)
+    email = Column(String)
 
     recipes = relationship("Recipe", secondary=users_recipes, back_populates="users")
+    ingredients = relationship(
+        "Ingredient", secondary=users_shoplists, back_populates="users"
+    )
 
-    def __init__(self, username, first_name, surname, pw_hash):
+    def __init__(self, username, first_name, surname, pw_hash, email):
         self.username = username
         self.first_name = first_name
         self.surname = surname
         self.pw_hash = pw_hash
+        self.email = email
 
 
 class Recipe(Base):
@@ -62,21 +73,49 @@ class Recipe(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, unique=True)
     instructions = Column(String)
-    nutrition = Column(String)
     url = Column(String)
     image = Column(String)
+    calories = Column(String)
+    carbs = Column(String)
+    fibre = Column(String)
+    sugar = Column(String)
+    protein = Column(String)
+    fats = Column(String)
+    sat_fats = Column(String)
+    serving_size = Column(String)
 
     users = relationship("User", secondary=users_recipes, back_populates="recipes")
     ingredients = relationship(
         "Ingredient", secondary=recipes_ingredients, back_populates="recipes"
     )
 
-    def __init__(self, title, instructions, nutrition, url, image):
+    def __init__(
+        self,
+        title,
+        instructions,
+        url,
+        image,
+        calories,
+        carbs,
+        fibre,
+        sugar,
+        protein,
+        fats,
+        sat_fats,
+        serving_size,
+    ):
         self.title = title
         self.instructions = instructions
-        self.nutrition = nutrition
         self.url = url
         self.image = image
+        self.calories = calories
+        self.carbs = carbs
+        self.fibre = fibre
+        self.sugar = sugar
+        self.protein = protein
+        self.fats = fats
+        self.sat_fats = sat_fats
+        self.serving_size = serving_size
 
 
 class Ingredient(Base):
@@ -90,6 +129,9 @@ class Ingredient(Base):
     recipes = relationship(
         "Recipe", secondary=recipes_ingredients, back_populates="ingredients"
     )
+    users = relationship(
+        "User", secondary=users_shoplists, back_populates="ingredients"
+    )
 
     def __init__(self, ingredient, measure, other_info):
         self.ingredient = ingredient
@@ -99,20 +141,17 @@ class Ingredient(Base):
 
 Base.metadata.create_all(bind=engine)
 
+# model functions connecting to the database
 
 def get_user_recipes_all(session_id):
     session = Session()
-    user_and_recipes = (
-        session.query(User)
-        .options(lazyload(User.recipes))
-        .filter(User.id == session_id)
-        .all()
-    )
 
-    user_recipes = user_and_recipes[0].recipes
+    # get current user object
+    user = session.query(User).filter(User.id == session_id).first()
+    recipe_list = user.recipes
     session.close()
     # returns a list of recipe objects
-    return user_recipes
+    return recipe_list
 
 
 def get_all_ingredients():
@@ -147,9 +186,35 @@ def get_all_recipes():
     return allRecipes
 
 
-def insert_new_recipe(rec_title, rec_instructions, rec_url, rec_img):
+def insert_new_recipe(
+    rec_title,
+    rec_instructions,
+    rec_url,
+    rec_img,
+    calories,
+    carbs,
+    fibre,
+    sugar,
+    protein,
+    fats,
+    sat_fats,
+    serving_size,
+):
     session = Session()
-    new_recipe = Recipe(rec_title, rec_instructions, "nutris", rec_url, rec_img)
+    new_recipe = Recipe(
+        rec_title,
+        rec_instructions,
+        rec_url,
+        rec_img,
+        calories,
+        carbs,
+        fibre,
+        sugar,
+        protein,
+        fats,
+        sat_fats,
+        serving_size,
+    )
     session.add(new_recipe)
     session.commit()
     session.close()
@@ -165,8 +230,11 @@ def get_id_of_existing_or_inserted_recipe(rec_title):
 
 def connect_recipe_with_ingredients(rec_id, ing_ids):
     session = Session()
+
     recipe = session.query(Recipe).filter(Recipe.id == rec_id).first()
+    # get ingredients for recipe
     ingredients = session.query(Ingredient).filter(Ingredient.id.in_(ing_ids)).all()
+
     recipe.ingredients = ingredients
     session.add(recipe)
     session.commit()
@@ -178,14 +246,10 @@ def connect_user_with_recipe(user_id, rec_id):
     user = session.query(User).filter(User.id == user_id).first()
     new_recipe = session.query(Recipe).filter(Recipe.id == rec_id).first()
 
-    all_recipes = (
-        session.query(User)
-        .options(lazyload(User.recipes))
-        .filter(User.id == user_id)
-        .all()
-    )
-    all_recipes = all_recipes[0].recipes
+    # get all current recipes
+    all_recipes = user.recipes
 
+    # append new recipe and add as new user.recipes
     all_recipes.append(new_recipe)
     user.recipes = all_recipes
 
@@ -196,39 +260,10 @@ def connect_user_with_recipe(user_id, rec_id):
 
 def get_ingredients_for_recipe(rec_id):
     session = Session()
-    ingredients_tup_list = (
-        session.query(Recipe)
-        .options(lazyload(Recipe.ingredients))
-        .filter(Recipe.id == rec_id)
-        .all()
-    )
-    ingredients_list = ingredients_tup_list[0].ingredients
+    recipe = session.query(Recipe).filter(Recipe.id == rec_id).first()
+    ingredients = recipe.ingredients
     session.close()
-    return ingredients_list
-
-
-def get_ingredients_for_user(user_id):
-    session = Session()
-    user_recipes = (
-        session.query(User)
-        .options(lazyload(User.recipes))
-        .filter(User.id == user_id)
-        .all()
-    )
-    user_recipes = user_recipes[0].recipes
-    shoplist = []
-    for recipe in user_recipes:
-        ingredients = (
-            session.query(Recipe)
-            .options(lazyload(Recipe.ingredients))
-            .filter(Recipe.id == recipe.id)
-            .all()
-        )
-        ingredients = ingredients[0].ingredients
-        for ing in ingredients:
-            shoplist.append(ing)
-    session.close()
-    return shoplist
+    return ingredients
 
 
 def disconnect_recipe_from_user(rec_title, user_id):
@@ -236,16 +271,8 @@ def disconnect_recipe_from_user(rec_title, user_id):
     user = session.query(User).filter(User.id == user_id).first()
     recipe_todelete = session.query(Recipe).filter(Recipe.title == rec_title).first()
 
-    all_recipes = (
-        session.query(User)
-        .options(lazyload(User.recipes))
-        .filter(User.id == user_id)
-        .all()
-    )
-    all_recipes = all_recipes[0].recipes
-
     new_recipes = []
-    for recipe in all_recipes:
+    for recipe in user.recipes:
         if recipe != recipe_todelete:
             new_recipes.append(recipe)
 
@@ -253,14 +280,7 @@ def disconnect_recipe_from_user(rec_title, user_id):
 
     if len(recipe_todelete.users) == 0:
 
-        ingredients_list = (
-            session.query(Recipe)
-            .options(lazyload(Recipe.ingredients))
-            .filter(Recipe.id == recipe_todelete.id)
-            .all()
-        )
-        ingredients_list = ingredients_list[0].ingredients
-        for ingredient in ingredients_list:
+        for ingredient in recipe_todelete.ingredients:
             if len(ingredient.recipes) == 1:
                 session.delete(ingredient)
 
@@ -269,3 +289,26 @@ def disconnect_recipe_from_user(rec_title, user_id):
     session.add(user)
     session.commit()
     session.close()
+
+
+def connect_user_to_shoplist(user_id):
+    session = Session()
+    user = session.query(User).filter(User.id == user_id).first()
+
+    ingredients_list = []
+    for recipe in user.recipes:
+        for ingredient in recipe.ingredients:
+            ingredients_list.append(ingredient)
+
+    user.ingredients = ingredients_list
+    session.add(user)
+    session.commit()
+    session.close()
+
+
+def get_ingredients_for_user(user_id):
+    session = Session()
+    user = session.query(User).filter(User.id == user_id).first()
+    shoplist = user.ingredients
+    session.close()
+    return shoplist

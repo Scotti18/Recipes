@@ -72,8 +72,8 @@ Index
 
     @media (max-width: 800px) {
         .recipe_image img {
-            max-height: 215px;
-            max-width: 195px;
+            max-height: 170px;
+            max-width: 150px;
         }
 
         .accordion-button-collapsed {
@@ -149,7 +149,14 @@ Index
                 <div id="{{ 'three' ~ recipe.id }}" class="accordion-collapse collapse"
                     aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        coming soon
+                        <li>Calories: {{recipe.calories}}</li>
+                        <li>Carbs: {{recipe.carbs}}</li>
+                        <li>Fibre: {{recipe.fibre}}</li>
+                        <li>Sugar: {{recipe.sugar}}</li>
+                        <li>Protein: {{recipe.protein}}</li>
+                        <li>Fats: {{recipe.fats}}</li>
+                        <li>Saturated Fats: {{recipe.sat_fats}}</li>
+                        <li>Serving Size: {{recipe.serving_size}}</li>
                     </div>
                 </div>
             </div>
@@ -162,7 +169,8 @@ Index
 
 
     <div class="recipe_image">
-        <img id="book_images" src="{{ recipe.img }}" class="card-img-top" alt="...">
+        <img id="book_images" src="{{ recipe.img }}" onerror="alert('Image not found or protected');"
+            class="card-img-top" alt="...">
     </div>
 </div>
 

@@ -1,3 +1,4 @@
+from sqlalchemy.util.langhelpers import ellipses_string
 from .helpers import key_exists, login_required
 import requests
 from flask import Blueprint, render_template, request, session, redirect, flash
@@ -5,6 +6,7 @@ from recipe_scrapers import scrape_me
 
 from .models import (
     connect_recipe_with_ingredients,
+    connect_user_to_shoplist,
     connect_user_with_recipe,
     get_all_ingredients,
     get_all_recipes,
@@ -106,6 +108,43 @@ def ingredients():
         rec_image = scraper.image()
         if not rec_image:
             rec_image = "/static/images/beach.JPG"
+        rec_nutrients = scraper.nutrients()
+        if not rec_nutrients:
+            rec_nutrients = "No nutrition available"
+
+        # get all nutritional information from webpage
+        if "calories" in rec_nutrients:
+            rec_calories = rec_nutrients["calories"]
+        else:
+            rec_calories = "N/A"
+        if "carbohydrateContent" in rec_nutrients:
+            rec_carbs = rec_nutrients["carbohydrateContent"]
+        else:
+            rec_carbs = "N/A"
+        if "fibreContent" in rec_nutrients:
+            rec_fibre = rec_nutrients["fiberContent"]
+        else:
+            rec_fibre = "N/A"
+        if "sugarContent" in rec_nutrients:
+            rec_sugar = rec_nutrients["sugarContent"]
+        else:
+            rec_sugar = "N/A"
+        if "proteinContent" in rec_nutrients:
+            rec_protein = rec_nutrients["proteinContent"]
+        else:
+            rec_protein = "N/A"
+        if "fatContent" in rec_nutrients:
+            rec_fats = rec_nutrients["fatContent"]
+        else:
+            rec_fats = "N/A"
+        if "saturatedFatContent" in rec_nutrients:
+            rec_sat_fats = rec_nutrients["saturatedFatContent"]
+        else:
+            rec_sat_fats = "N/A"
+        if "servingSize" in rec_nutrients:
+            rec_serving = rec_nutrients["servingSize"]
+        else:
+            rec_serving = "N/A"
 
         # check if recipe is already in the active users' database
         users_recipes = get_user_recipes_all(session["user_id"])
@@ -147,7 +186,20 @@ def ingredients():
             if rec_title == recipe[0]:
                 counter2 += 1
         if counter2 == 0:
-            insert_new_recipe(rec_title, rec_instructions, scrape_url, rec_image)
+            insert_new_recipe(
+                rec_title,
+                rec_instructions,
+                scrape_url,
+                rec_image,
+                rec_calories,
+                rec_carbs,
+                rec_fibre,
+                rec_sugar,
+                rec_protein,
+                rec_fats,
+                rec_sat_fats,
+                rec_serving,
+            )
 
         # get id of that particular recipe
         rec_id = get_id_of_existing_or_inserted_recipe(rec_title)
@@ -182,6 +234,16 @@ def ingredients():
             recipe_dict["url"] = recipe.url
             recipe_dict["img"] = recipe.image
 
+            # nutrition information
+            recipe_dict["calories"] = recipe.calories
+            recipe_dict["carbs"] = recipe.carbs
+            recipe_dict["fibre"] = recipe.fibre
+            recipe_dict["sugar"] = recipe.sugar
+            recipe_dict["protein"] = recipe.protein
+            recipe_dict["fats"] = recipe.fats
+            recipe_dict["sat_fats"] = recipe.sat_fats
+            recipe_dict["serving_size"] = recipe.serving_size
+
             # select all ingredients for that recipe
             ingredients_list = get_ingredients_for_recipe(recipe.id)
 
@@ -198,18 +260,6 @@ def ingredients():
 
 
 @login_required
-@views.route("/shoplist", methods=["GET", "POST"])
-def shoplist():
-    shoplist = get_ingredients_for_user(session["user_id"])
-
-    shoppingList = []
-    for item in shoplist:
-        shoppingList.append(item.ingredient)
-
-    return render_template("shoppingList.html", shopList=shoppingList)
-
-
-@login_required
 @views.route("/delete", methods=["GET", "POST"])
 def delete():
     if request.method == "POST":
@@ -221,3 +271,21 @@ def delete():
 
     if request.method == "GET":
         return redirect("/ingredients")
+
+
+@login_required
+@views.route("/shoplist", methods=["GET", "POST"])
+def shoplist():
+    if request.method == "POST":
+        pass
+
+    if request.method == "GET":
+        connect_user_to_shoplist(session["user_id"])
+
+        shoplist = get_ingredients_for_user(session["user_id"])
+
+        shoppingList = []
+        for item in shoplist:
+            shoppingList.append(item.ingredient)
+
+        return render_template("shoppingList.html", shopList=shoppingList)

@@ -91,7 +91,7 @@ def register():
 
         # store username, and a hased password in database
         pw_hash = generate_password_hash(password)
-        store_new_user(new_user, pw_hash)
+        store_new_user(new_user, "firstname", "surname", pw_hash, "email")
 
         flash("Registered successfully", "info")
         return redirect("/")
