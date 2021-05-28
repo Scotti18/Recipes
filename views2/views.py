@@ -1,5 +1,5 @@
 from sqlalchemy.util.langhelpers import ellipses_string
-from .helpers import key_exists, login_required
+from .helpers import format_ingredient, key_exists, login_required
 import requests
 from flask import Blueprint, render_template, request, session, redirect, flash
 from recipe_scrapers import scrape_me
@@ -286,6 +286,9 @@ def shoplist():
 
         shoppingList = []
         for item in shoplist:
-            shoppingList.append(item.ingredient)
+            ingredient = format_ingredient(item.ingredient)
+            shoppingList.append(ingredient)
+
+        print(shoppingList)
 
         return render_template("shoppingList.html", shopList=shoppingList)
