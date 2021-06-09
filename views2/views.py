@@ -4,6 +4,7 @@ import requests
 from flask import Blueprint, render_template, request, session, redirect, flash
 from recipe_scrapers import scrape_me
 
+
 from .models import (
     connect_recipe_with_ingredients,
     connect_user_to_shoplist,
@@ -24,7 +25,7 @@ views = Blueprint(
     "views",
     __name__,
     template_folder="../views2/templates/views2",
-    static_folder="../views2/static/views2",
+    static_folder="../views2/static/styles",
 )
 
 
@@ -152,7 +153,7 @@ def ingredients():
             for user_recipe in users_recipes:
                 # if user has already added recipe -> redirect to cookbook without changing
                 if rec_title == user_recipe.title:
-                    return redirect("/ingredients")
+                    return redirect("/views/ingredients")
 
         # get all ingredients from database
         ing_ids = []
@@ -214,7 +215,7 @@ def ingredients():
 
         # redirect to coobook using GET
         flash("Recipe added to Cookbook", "info")
-        return redirect("/ingredients")
+        return redirect("/views/ingredients")
 
     # when GET
     else:
@@ -267,10 +268,10 @@ def delete():
         disconnect_recipe_from_user(recipe, session["user_id"])
 
         flash("Recipe removed from cookbook", "info")
-        return redirect("/ingredients")
+        return redirect("/views/ingredients")
 
     if request.method == "GET":
-        return redirect("/ingredients")
+        return redirect("/views/ingredients")
 
 
 @login_required

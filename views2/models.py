@@ -14,7 +14,8 @@ from sqlalchemy.sql.functions import user
 from sqlalchemy.sql.schema import ForeignKey
 
 engine = create_engine(
-    "sqlite:///D:\\Programming\\Projects\\Recipes_struct\\recipes_alq.db", echo=False
+    "sqlite:///D:\\Programming\\Own Projects\\Recipes_struct\\recipes_alq.db",
+    echo=False,
 )
 
 Base = declarative_base()
@@ -142,6 +143,7 @@ class Ingredient(Base):
 Base.metadata.create_all(bind=engine)
 
 # model functions connecting to the database
+
 
 def get_user_recipes_all(session_id):
     session = Session()

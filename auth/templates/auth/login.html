@@ -5,19 +5,14 @@ Log In
 {% endblock %}
 
 {% block main %}
-<style>
-    body {
-        text-align: center;
-    }
 
-    form {
-        width: fit-content;
-        margin: auto;
-    }
-</style>
+<div class="intro login">
+    <p>Create your own cookbook with recipes from all over the web</p>
+    <p>Simply add them to your shopping list and stop worrying about what you need</p>
+    <p>Leftovers in the fridge? Dont know what to cook? The algorithm will find you something!</p>
+</div>
 
-
-<form action="/auth/login" method="post">
+<form class="form-container" action="/auth/login" method="post">
     <div class="form-group">
         <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
     </div>

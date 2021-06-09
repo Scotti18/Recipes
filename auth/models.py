@@ -7,7 +7,7 @@ from sqlalchemy.sql.coercions import ColumnsClauseImpl
 from sqlalchemy.sql.schema import ForeignKey
 
 engine = create_engine(
-    "sqlite:///D:\\Programming\\Projects\\Recipes_struct\\recipes_alq.db",
+    "sqlite:///D:\\Programming\\Own Projects\\Recipes_struct\\recipes_alq.db",
     echo=False,
 )
 
