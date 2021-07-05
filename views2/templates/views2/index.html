@@ -5,37 +5,7 @@ Index
 {% endblock %}
 
 {% block main %}
-<style>
-    .wrapper {
-        display: grid;
-        grid-gap: 3rem;
-        grid-template-columns: 1fr 1fr 1fr;
-    }
 
-    .card img {
-        width: auto;
-        height: auto;
-    }
-
-
-    @media (max-width: 1500px) {
-        .wrapper {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    @media (max-width: 1000px) {
-        .wrapper {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 500px) {
-        .wrapper {
-            grid-template-columns: repeat(1, 1fr);
-        }
-    }
-</style>
 
 <!-- {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -48,7 +18,7 @@ Index
 {% endwith %} -->
 
 
-<section class="jumbotron text-center">
+<section class="form-container">
     <div class="container">
         <h1 class="jumbotron-heading">Search Google Recipes</h1>
         <p class="lead text-muted">Get the top nine results of Recipes for your query!</p>
@@ -69,19 +39,31 @@ Index
 
     <div class="card">
         <img src="{{ website.image }}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{ website.title }}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                the card's
-                content.</p>
-            <a href="{{ website.url }}" class="btn btn-primary" target="_blank">View Recipe</a>
-            <form action="/views/ingredients" , method="POST">
-                <button href="#" class="btn btn-primary" value="{{ website.url }}" name="search_url">Add to
-                    cookbook</button>
-            </form>
+        <div class="card-wrapper">
+            <div class="card-content">
+                <div class="card-body">
+                    <h5 class="card-title">{{ website.title }}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                        the card's
+                        content.
+                    </p>
+                </div>
+                <div class="card-buttons">
+                    <a href="{{ website.url }}" class="btn noborder btn-primary" target="_blank">View
+                        Recipe</a>
+                    <form action="/views/ingredients" , method="POST">
+                        <button href="#" class="btn noborder btn-primary" value="{{ website.url }}" name="search_url">
+                            Add to cookbook
+                        </button>
+                    </form>
+                </div>
+            </div>
 
         </div>
+
     </div>
+
+
 
     {% endfor %}
 

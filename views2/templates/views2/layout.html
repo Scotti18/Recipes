@@ -47,15 +47,18 @@
         </div>
     </nav>
 
+    <div class="img-container">
+    </div>
+
     {% if get_flashed_messages() %}
     <header>
-        <div class="alert alert-primary border text-center" role="alert">
+        <div class="flash">
             {{ get_flashed_messages() | join(" ") }}
         </div>
     </header>
     {% endif %}
 
-    <main class="container p-5">
+    <main class="container p-5" id="mainblock">
         {% block main %}{% endblock %}
     </main>
 
@@ -88,15 +91,8 @@
 
 </body>
 
-<script>
-    function openNav() {
-        document.querySelector("#mynav").style.height = "100%";
-    }
-
-    function closeNav() {
-        document.querySelector("#mynav").style.height = "0";
-    }
-
-</script>
+<script src="{{url_for('views.static', filename='animations.js')}}"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </html>

@@ -51,8 +51,12 @@ def index():
         }
 
         # request results and convert to json
-        r = requests.get(search_url, params=search_params)
-        results = r.json()["items"]
+        try:
+            r = requests.get(search_url, params=search_params)
+            results = r.json()["items"]
+        except:
+            flash("No search results found")
+            return redirect("/views")
 
         websites = []
 
@@ -94,7 +98,8 @@ def ingredients():
         try:
             scraper = scrape_me(scrape_url, wild_mode=True)
         except:
-            return "Not possible to fetch ingredients. If you would like you can copy and paste ingedients from website or try another recipe"
+            flash("Scraping failed. Please try a different recipe")
+            return redirect("/views")
 
         # extract information: title, instructions, and ingredients
         rec_title = scraper.title()
@@ -103,6 +108,7 @@ def ingredients():
         rec_instructions = scraper.instructions()
         if not rec_instructions:
             rec_instructions = "No Instructions for recipe (Visit website)"
+
         rec_ingredients = scraper.ingredients()
         if not rec_ingredients:
             rec_ingredients = "No ingredients for recipe"

@@ -6,12 +6,17 @@ Index
 
 {% block main %}
 
+<div class="main_header">
+    Shopping List
+</div>
 
 {% for item in shopList %}
-<input type="checkbox">
-<ul>
-    {{ item }}
-</ul>
+<div class="shoplist">
+    <ul>
+        <input type="checkbox">{{ item }}
+    </ul>
+</div>
+
 
 {% endfor %}
 
