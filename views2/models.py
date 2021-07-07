@@ -1,3 +1,4 @@
+# from views2.views import ingredients
 from requests.sessions import session, should_bypass_proxies
 from sqlalchemy import create_engine, Column, Integer, String, Sequence, Table
 from sqlalchemy.engine import create_engine
@@ -319,11 +320,17 @@ def get_ingredients_for_user(user_id):
 def get_ingredients_for_recipeList(recipe_titles):
     session = Session()
 
+    # ingredientList = []
+    # for rec_title in recipe_titles:
+    #     recipe = session.query(Recipe).filter(Recipe.title == rec_title).first()
+    #     for ing in recipe.ingredients:
+    #         ingredientList.append(ing.ingredient)
+
     ingredientList = []
-    for rec_title in recipe_titles:
-        recipe = session.query(Recipe).filter(Recipe.title == rec_title).first()
-        for ing in recipe.ingredients:
-            ingredientList.append(ing.ingredient)
+
+    recipe = session.query(Recipe).filter(Recipe.title == recipe_titles).first()
+    for ing in recipe.ingredients:
+        ingredientList.append(ing.ingredient)
 
     print(ingredientList)
     session.close()

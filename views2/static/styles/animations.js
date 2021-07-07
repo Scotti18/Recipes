@@ -115,13 +115,13 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         if (prevScrollPos > currScrollPos) {
-            backToTop = document.querySelector(".back-to-top");
+            let backToTop = document.querySelector(".back-to-top");
             if (backToTop) {
                 backToTop.style.opacity = "1";
             }
 
         } else {
-            backToTop = document.querySelector(".back-to-top");
+            let backToTop = document.querySelector(".back-to-top");
             if (backToTop) {
                 backToTop.style.opacity = "0";
             }
@@ -130,6 +130,7 @@ window.addEventListener('DOMContentLoaded', function () {
         prevScrollPos = currScrollPos;
 
     }
+
 
     // async function get_ingredients() {
     //     try {
@@ -141,79 +142,71 @@ window.addEventListener('DOMContentLoaded', function () {
     //     }
     // }
 
-    async function get_recipes(checked_recipes) {
+    async function get_recipes(rec_title) {
         try {
-            url_rec = "/views/ing_list/".concat(checked_recipes)
+            let checked_recipe = JSON.stringify(rec_title);
+            url_rec = "/views/ing_list/".concat(checked_recipe)
             let recipes = await fetch(url_rec)
             let recipe_text = await recipes.json()
             console.log(recipe_text)
 
-            // var output = ["<ul>", recipe_text.map((str) => {
-            //     return '<li>' + str + '</li>'
-            // }).join('\n'), "</ul>"].join("\n")
+            const node_ul = document.querySelector(".ings");
 
-            var output = ["<ul class='ings'>", recipe_text.map((str) => {
-                return '<li class="ing_list"><label><input type="checkbox" class="ing_check checkbox" value="str">' + str + '</label></li>'
-            }).join('\n'), "</ul>"].join("\n");
+            recipe_text.forEach((ing) => {
+                let node_li = document.createElement("li");
+                node_li.classList.add("ing_list");
 
-            console.log(output);
+                let node_label = document.createElement("label");
 
-            document.querySelector(".all_ingredients").innerHTML = output;
+                let node_input = document.createElement("input");
+                node_input.type = "checkbox";
+                node_input.classList.add("ing_check");
+                node_input.classList.add("checkbox");
+                node_input.value = rec_title;
 
+                node_label.appendChild(node_input);
+                let label_text = document.createTextNode(ing);
+                node_label.appendChild(label_text);
 
+                node_li.appendChild(node_label);
+
+                node_ul.appendChild(node_li);
+
+            });
 
         } catch (err) {
             console.log(err)
         }
     }
 
+    function delete_recipes(rec_title) {
+        let recipe_checkboxes = document.querySelectorAll(".ing_check");
+        recipe_checkboxes.forEach((checkbox) => {
+            if (checkbox.value == rec_title) {
+                checkbox.closest("label").remove();
+            }
+        });
+    }
 
     // make request everytime when a checkbox is clicked
 
     let checkboxes_forListener = document.querySelectorAll(".recipe_checkbox");
     checkboxes_forListener.forEach((checkbox_forListerner) => {
-        checkbox_forListerner.addEventListener("change", () => {
-            let checkboxes = document.querySelectorAll(".recipe_checkbox")
+        checkbox_forListerner.addEventListener("change", (event) => {
 
-            let recipe_titles = [];
+            recipe_title = event.target.value;
 
-            checkboxes.forEach((checkbox) => {
-                if (checkbox.checked) {
-                    console.log(checkbox.value);
-                    recipe_titles.push(checkbox.value);
-                }
-            });
+            console.log(recipe_title);
+            console.log(JSON.stringify(recipe_title));
 
-            console.log(recipe_titles)
-            console.log(JSON.stringify(recipe_titles))
+            if (event.target.checked) {
+                get_recipes(recipe_title);
+            } else {
+                delete_recipes(recipe_title);
+            }
 
-            get_recipes(JSON.stringify(recipe_titles))
         });
     });
-
-    // make request with button with id get_ing
-
-    // ing_button = document.querySelector("#get_ing");
-    // ing_button.addEventListener("click", () => {
-    //     // let recipes = get_recipes();
-    //     let checkboxes = document.querySelectorAll(".recipe_checkbox")
-
-    //     let recipe_titles = [];
-
-    //     checkboxes.forEach((checkbox) => {
-    //         if (checkbox.checked) {
-    //             console.log(checkbox.value);
-    //             recipe_titles.push(checkbox.value);
-    //         }
-    //     });
-
-    //     console.log(recipe_titles)
-    //     console.log(JSON.stringify(recipe_titles))
-
-    //     get_recipes(JSON.stringify(recipe_titles))
-
-    // });
-
 
 
     // shopping list buttons 
@@ -228,13 +221,13 @@ window.addEventListener('DOMContentLoaded', function () {
                 checkbox.checked = true;
             });
             mark_button.value = "unmark";
-            mark_button.innerHTML = "Unmark All";
+            mark_button.textContent = "Unmark All";
         } else {
             ing_checkboxes.forEach((checkbox) => {
                 checkbox.checked = false;
             });
             mark_button.value = "mark";
-            mark_button.innerHTML = "Mark All";
+            mark_button.textContent = "Mark All";
         }
     });
 
@@ -251,6 +244,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 checkbox.closest("li").remove();
             }
         });
+
+        let mark_button = document.querySelector("#mark_ing");
+        mark_button.value = "mark";
+        mark_button.textContent = "Mark All";
     });
 
 
@@ -279,7 +276,7 @@ window.addEventListener('DOMContentLoaded', function () {
         let ing_form = document.querySelector("#new_ing_form");
         let value = ing_form.value;
 
-        if (ing_form.value = "") {
+        if (value == "") {
             ing_form.placeholder = "You have to type in something";
         } else {
             let list_item = document.createElement("li");
@@ -304,7 +301,13 @@ window.addEventListener('DOMContentLoaded', function () {
             let list_ing = document.querySelector(".ings_new");
             list_ing.appendChild(list_item);
         }
+
+        ing_form.value = "";
     });
 
 
+
+    document.onselectionchange = () => {
+        console.log("Selection change");
+    }
 });

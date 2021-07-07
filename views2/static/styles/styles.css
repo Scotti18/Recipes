@@ -591,6 +591,7 @@ Ad Ons
     opacity: 0;
     transition: all ease-in-out 0.25s;
     text-align: center;
+    z-index: 3;
 }
 
 
@@ -674,13 +675,27 @@ Styling
 */
 
 
+.main_header {
+    margin-bottom: 80px;
+}
+
+.main_block {
+
+    margin-bottom: 100px;
+}
+
 .shoplist_container {
     display: grid;
-    margin: 0 auto;
+    margin: 0 0 0 15%;
     align-items: center;
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding: 13px;
+    background-color: #000000e0;
+    color: white;
+    border-radius: 20px 0 0 20px;
 }
+
 
 .checkbox {
     position: relative;
@@ -735,10 +750,29 @@ Styling
     background-color: rgba(27, 27, 78, 0.753);
 }
 
+.Ing_div {
+    /* background-color: #000000e0; */
+    padding: 20px 0;
+    position: relative;
+}
+
+.background_block {
+    min-height: 400px;
+    max-height: 600px;
+    width: 85%;
+    background-color: #000000e0;
+    position: absolute;
+    z-index: 0;
+    border-radius: 0 20px 20px 0;
+}
+
+
 .ing_container {
     text-align: center;
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
+    z-index: 1;
+    position: relative;
 }
 
 
@@ -746,10 +780,14 @@ Styling
 .ing_list {
     text-align: start;
     list-style: none;
+    
 }
 
 .ings, .ings_new {
     margin: 0 auto;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
 }
 
 .ing_subContainer {
@@ -757,8 +795,16 @@ Styling
     border-radius: 15px;
     padding: 20px;
     box-shadow: rgb(3 8 20 / 10%) 0px 0.5rem 0.8rem, rgb(2 8 20 / 10%) 0px 0.27rem 0.575rem;
-    background-color: rgba(12,12,12,0.1);
+    background: linear-gradient(rgba(240, 236, 234, 0.925),rgba(156, 112, 76, 0.719));
+    /* background: linear-gradient(rgba(240, 236, 234, 0.925),rgba(26, 20, 15, 0)); */
+
     margin: 30px auto;
+    min-height: 150px;
+}
+
+.ing_subContainer:hover {
+    transform: scale(1.005);
+    transition: 0.25s all ease-in-out;
 }
 
 
@@ -777,9 +823,7 @@ Queries
     .btn-noborder {
         font-size: 10px;
     }
-    .ing_container {
-        width: 89%;
-    }
+    
 
     .all_ingredients,
     .all_new_ingredients,
@@ -799,6 +843,9 @@ Queries
     }
     .navbar-collapse .open {
         opacity: 1;
+    }
+    .ing_container {
+        width: 89%;
     }
 }
 

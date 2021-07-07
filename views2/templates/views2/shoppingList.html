@@ -8,18 +8,16 @@ Index
 
 <div class="main_header">
     <h2>
-        Choose your desired Recipes
+        Choose your Recipes
     </h2>
+    <h4>
+        1. Select any recipes of which you want to include the ingredients
+    </h4>
 </div>
 
-<!-- 
-<div class="log_ing">
-    <button id="get_ing">
-        Get ingredients
-    </button>
-</div> -->
 
 <div class="main_block">
+
 
     <div class="shoplist_container">
         {% for item in recipeList %}
@@ -41,46 +39,56 @@ Index
         Shopping List
     </h2>
     <h4>
-        Now delete any ingredients you already have or add any ingredients to the shopping list
+        2. Now delete any ingredients you already have at home or add new ones to the shopping list
     </h4>
 </div>
 
 
-<div class="ing_container">
-    <div class="ing_subContainer">
-        <ul class="all_ingredients">
+<div class="Ing_div">
+    <div class="background_block">
 
-
-        </ul>
-
-        <ul class="all_new_ingredients">
-
-        </ul>
     </div>
 
+    <div class="ing_container">
+        <div class="ing_subContainer">
+            <ul class="all_ingredients">
+                <ul class="ings">
 
-    <div class="shoplist-buttons">
-        <button class="btn" id="delete_ing">
-            Delete marked
-        </button>
-        <button class="btn" id="mark_ing" value="mark">
-            Mark All
-        </button>
-        <button class="btn" id="new_ing">
-            Add new Ingredient
-        </button>
+                </ul>
+
+            </ul>
+
+            <ul class="all_new_ingredients">
+
+            </ul>
+        </div>
+
+
+        <div class="shoplist-buttons">
+            <button class="btn" id="delete_ing">
+                Delete marked
+            </button>
+            <button class="btn" id="mark_ing" value="mark">
+                Mark All
+            </button>
+            <button class="btn" id="new_ing">
+                Add new Ingredient
+            </button>
+        </div>
+
+
+
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" id="new_ing_form" name="new_ing"
+                placeholder="Type New Ingredient" type="text">
+        </div>
+
+
+
     </div>
-
-
-
-    <div class="form-group">
-        <input autocomplete="off" autofocus class="form-control" id="new_ing_form" name="new_ing"
-            placeholder="Type New Ingredient" type="text">
-    </div>
-
-
-
 </div>
+
+
 
 
 
