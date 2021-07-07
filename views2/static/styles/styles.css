@@ -216,11 +216,11 @@ button {
 .btn:hover, 
 .active,
 .intro:hover {
-    animation: expansion 0.7s forwards;
-    /* transform: scale(1.1, 1.1);
-    transition: all 0.5s ease-in-out; */
-}
+    transform: scale(1.05, 1.05);
+    transition: all 0.25s ease-in-out; 
+} 
 
+/* 
 @keyframes expansion {
     from {
     }
@@ -231,8 +231,8 @@ button {
         outline: none;
         transform: scale(1.4, 1.4);
         border-radius: 15px;
-    }
-} 
+    } */
+/* }  */  
 
 .intro {
     margin: auto;
@@ -450,7 +450,7 @@ Cards
     /* transform: translateX(-200px); */
     transition: all 1s;
     will-change: opacity, transform;
-    margin: 100px auto;
+    margin: 200px auto;
     max-height: 100%;
     width: 100%;
     opacity: 0;
@@ -579,19 +579,6 @@ Cards
 
 
 
-@media (max-width: 600px) {
-    .cookbook {
-        width: 98%;
-    }
-
-}
-
-@media (max-width: 1000px) {
-    .accordion-item {
-        grid-column: span 2;
-    }
-}
-
 
 
 /*
@@ -605,6 +592,26 @@ Ad Ons
     transition: all ease-in-out 0.25s;
     text-align: center;
 }
+
+
+
+
+
+
+
+/*
+
+Shopping
+List 
+Styling
+
+*/
+
+
+
+
+
+
 
 
 
@@ -659,6 +666,104 @@ COntent
 
 
 
+/*
+
+CheckBox
+Styling
+
+*/
+
+
+.shoplist_container {
+    display: grid;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: 2px solid #7C7A7D;
+    border-radius: 5px;
+    margin: 0;
+    outline: none;
+    transition: 0.5s ease;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+
+.checkbox:checked {
+    border-color: #7C7A7D;
+    background-color: #772924;
+}
+
+
+.checkbox:checked:before {
+   display: block;
+   content: '\2713';
+   text-align: center;
+   color: #FFF;
+   font-family: Arial;
+   font-size: 20px;
+   font-weight: 800;
+}
+
+
+.checkbox:hover {
+   opacity: 1.0;
+   transform: scale(1.05);
+}
+
+.ing_check.checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.ing_check.checkbox:checked {
+    background-color: rgba(27, 27, 78, 0.753);
+}
+
+.ing_container {
+    text-align: center;
+    width: 60%;
+    margin: 0 auto;
+}
+
+
+
+.ing_list {
+    text-align: start;
+    list-style: none;
+}
+
+.ings, .ings_new {
+    margin: 0 auto;
+}
+
+.ing_subContainer {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: rgb(3 8 20 / 10%) 0px 0.5rem 0.8rem, rgb(2 8 20 / 10%) 0px 0.27rem 0.575rem;
+    background-color: rgba(12,12,12,0.1);
+    margin: 30px auto;
+}
+
+
+
+
     
 
 /*
@@ -672,6 +777,18 @@ Queries
     .btn-noborder {
         font-size: 10px;
     }
+    .ing_container {
+        width: 89%;
+    }
+
+    .all_ingredients,
+    .all_new_ingredients,
+    .ings,
+    .ings_new {
+        margin: 0;
+        padding: 0;
+    }
+    
 }
 
 
@@ -682,5 +799,19 @@ Queries
     }
     .navbar-collapse .open {
         opacity: 1;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .cookbook {
+        width: 98%;
+    }
+
+}
+
+@media (max-width: 1000px) {
+    .accordion-item {
+        grid-column: span 2;
     }
 }

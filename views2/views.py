@@ -1,8 +1,10 @@
+from sys import set_asyncgen_hooks
 from sqlalchemy.util.langhelpers import ellipses_string
 from .helpers import format_ingredient, key_exists, login_required
 import requests
-from flask import Blueprint, render_template, request, session, redirect, flash
+from flask import Blueprint, render_template, request, session, redirect, flash, jsonify
 from recipe_scrapers import scrape_me
+import json
 
 
 from .models import (
@@ -14,6 +16,7 @@ from .models import (
     get_id_of_existing_or_inserted_recipe,
     get_ingredient_id,
     get_ingredients_for_recipe,
+    get_ingredients_for_recipeList,
     get_ingredients_for_user,
     get_user_recipes_all,
     insert_new_ingredient,
@@ -289,13 +292,39 @@ def shoplist():
     if request.method == "GET":
         connect_user_to_shoplist(session["user_id"])
 
-        shoplist = get_ingredients_for_user(session["user_id"])
+        # shoplist = get_ingredients_for_user(session["user_id"])
+        recipelist = get_user_recipes_all(session["user_id"])
 
-        shoppingList = []
-        for item in shoplist:
-            ingredient = format_ingredient(item.ingredient)
-            shoppingList.append(ingredient)
+        recipeList = []
+        for item in recipelist:
+            recipeList.append(item.title)
 
-        print(shoppingList)
+        return render_template("shoppingList.html", recipeList=recipeList)
 
-        return render_template("shoppingList.html", shopList=shoppingList)
+
+@login_required
+@views.route("/ing_list/<recipes_checked>", methods=["GET", "POST"])
+def ing_list(recipes_checked):
+    if request.method == "POST":
+        pass
+
+    if request.method == "GET":
+        # connect_user_to_shoplist(session["user_id"])
+
+        # shoplist = get_ingredients_for_user(session["user_id"])
+
+        # shoppingList = []
+        # for item in shoplist:
+        #     ingredient = format_ingredient(item.ingredient)
+        #     shoppingList.append(ingredient)
+
+        # print(shoppingList)
+
+        recipes = json.loads(recipes_checked)
+        print(recipes)
+
+        ingredients = get_ingredients_for_recipeList(recipes)
+
+        print(ingredients)
+
+        return jsonify(ingredients)

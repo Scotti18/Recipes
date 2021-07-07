@@ -314,3 +314,17 @@ def get_ingredients_for_user(user_id):
     shoplist = user.ingredients
     session.close()
     return shoplist
+
+
+def get_ingredients_for_recipeList(recipe_titles):
+    session = Session()
+
+    ingredientList = []
+    for rec_title in recipe_titles:
+        recipe = session.query(Recipe).filter(Recipe.title == rec_title).first()
+        for ing in recipe.ingredients:
+            ingredientList.append(ing.ingredient)
+
+    print(ingredientList)
+    session.close()
+    return ingredientList

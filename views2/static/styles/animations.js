@@ -91,9 +91,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
-
     let flash = document.querySelector(".flash");
     setTimeout(function () {
         if (flash) {
@@ -106,15 +103,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
     window.onscroll = function () {
         let currScrollPos = window.pageYOffset;
-        console.log(currScrollPos)
 
-        if (currScrollPos > 665) {
-            if (prevScrollPos > currScrollPos) {
-                document.querySelector(".navbar-container").style.top = "0";
 
-            } else {
+        if (prevScrollPos > currScrollPos) {
+            document.querySelector(".navbar-container").style.top = "0";
+
+        } else {
+            if (currScrollPos > 650) {
                 document.querySelector(".navbar-container").style.top = "-63px";
-
             }
         }
 
@@ -135,7 +131,180 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
 
+    // async function get_ingredients() {
+    //     try {
+    //         const shoplist = await fetch("/views/ing_list")
+    //         const text = await shoplist.json()
+    //         console.log(text)
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
+    async function get_recipes(checked_recipes) {
+        try {
+            url_rec = "/views/ing_list/".concat(checked_recipes)
+            let recipes = await fetch(url_rec)
+            let recipe_text = await recipes.json()
+            console.log(recipe_text)
+
+            // var output = ["<ul>", recipe_text.map((str) => {
+            //     return '<li>' + str + '</li>'
+            // }).join('\n'), "</ul>"].join("\n")
+
+            var output = ["<ul class='ings'>", recipe_text.map((str) => {
+                return '<li class="ing_list"><label><input type="checkbox" class="ing_check checkbox" value="str">' + str + '</label></li>'
+            }).join('\n'), "</ul>"].join("\n");
+
+            console.log(output);
+
+            document.querySelector(".all_ingredients").innerHTML = output;
+
+
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
+    // make request everytime when a checkbox is clicked
+
+    let checkboxes_forListener = document.querySelectorAll(".recipe_checkbox");
+    checkboxes_forListener.forEach((checkbox_forListerner) => {
+        checkbox_forListerner.addEventListener("change", () => {
+            let checkboxes = document.querySelectorAll(".recipe_checkbox")
+
+            let recipe_titles = [];
+
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    console.log(checkbox.value);
+                    recipe_titles.push(checkbox.value);
+                }
+            });
+
+            console.log(recipe_titles)
+            console.log(JSON.stringify(recipe_titles))
+
+            get_recipes(JSON.stringify(recipe_titles))
+        });
+    });
+
+    // make request with button with id get_ing
+
+    // ing_button = document.querySelector("#get_ing");
+    // ing_button.addEventListener("click", () => {
+    //     // let recipes = get_recipes();
+    //     let checkboxes = document.querySelectorAll(".recipe_checkbox")
+
+    //     let recipe_titles = [];
+
+    //     checkboxes.forEach((checkbox) => {
+    //         if (checkbox.checked) {
+    //             console.log(checkbox.value);
+    //             recipe_titles.push(checkbox.value);
+    //         }
+    //     });
+
+    //     console.log(recipe_titles)
+    //     console.log(JSON.stringify(recipe_titles))
+
+    //     get_recipes(JSON.stringify(recipe_titles))
+
+    // });
+
+
+
+    // shopping list buttons 
+
+    let mark_button = document.querySelector("#mark_ing");
+    mark_button.addEventListener("click", () => {
+
+        let ing_checkboxes = document.querySelectorAll(".ing_check")
+
+        if (mark_button.value == "mark") {
+            ing_checkboxes.forEach((checkbox) => {
+                checkbox.checked = true;
+            });
+            mark_button.value = "unmark";
+            mark_button.innerHTML = "Unmark All";
+        } else {
+            ing_checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+            mark_button.value = "mark";
+            mark_button.innerHTML = "Mark All";
+        }
+    });
+
+
+    // Delete Button for Ingredients in Shopping List
+
+    let delete_button = document.querySelector("#delete_ing");
+    delete_button.addEventListener("click", () => {
+
+        let ing_checkboxes = document.querySelectorAll(".ing_check")
+
+        ing_checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                checkbox.closest("li").remove();
+            }
+        });
+    });
+
+
+    // Add new ingredient-button
+
+    let newIng_button = document.querySelector("#new_ing");
+    newIng_button.addEventListener("click", () => {
+
+        // Create a new div if it does not exist yet 
+        if (document.querySelector(".ings_new") == null) {
+
+            // Create new div for added ingredients
+            let newIng_UL = document.createElement("ul");
+            newIng_UL.classList.add("ings_new");
+
+            // Append new div to all ingredients ul
+            let ing_container = document.querySelector(".all_new_ingredients");
+
+            // Insert before shoplist buttons
+            ing_container.appendChild(newIng_UL);
+        }
+
+
+
+
+        let ing_form = document.querySelector("#new_ing_form");
+        let value = ing_form.value;
+
+        if (ing_form.value = "") {
+            ing_form.placeholder = "You have to type in something";
+        } else {
+            let list_item = document.createElement("li");
+            list_item.classList.add("ing_list");
+
+            let label_item = document.createElement("label");
+
+            let checkbox_item = document.createElement("input");
+            checkbox_item.type = "checkbox";
+            checkbox_item.value = "str";
+            checkbox_item.classList.add("ing_check");
+            checkbox_item.classList.add("checkbox");
+
+
+            label_item.appendChild(checkbox_item);
+
+            let value_item = document.createTextNode(value);
+            label_item.appendChild(value_item);
+
+            list_item.appendChild(label_item);
+
+            let list_ing = document.querySelector(".ings_new");
+            list_ing.appendChild(list_item);
+        }
+    });
 
 
 });
