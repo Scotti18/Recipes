@@ -30,7 +30,8 @@
             <div class="navbar-items logged">
                 <span class="nav-item"><a class="nav-link" href="/views/">Look for recipes</a></span>
                 <span class="nav-item"><a class="nav-link" href="/views/ingredients">Cookbook</a></span>
-                <span class="nav-item"><a class="nav-link" href="/views/shoplist">Shopping List</a></span>
+                <span class="nav-item"><a class="nav-link" href="/views/shoplist">Create List</a></span>
+                <span class="nav-item"><a class="nav-link" href="/views/savedLists">Saved Lists</a></span>
                 <!-- <span class="nav-item"><a class="nav-link" href="/history">History</a></span> -->
             </div>
             <div class="navbar-logout">
@@ -74,7 +75,8 @@
             {% if session.user_id %}
             <a href="/views/">Lookup Recipes</a>
             <a href="/views/ingredients">Cookbook</a>
-            <a href="/views/shoplist">Shopping List</a>
+            <a href="/views/shoplist">Create Shopping List</a>
+            <a href="/views/savedLists">Your Saved Shopping Lists</a>
             <a href="/auth/logout">Log Out</a>
             {% else %}
             <a href="/auth/register">Register</a>

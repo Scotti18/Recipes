@@ -82,6 +82,7 @@ NAVBAR
 .navbar-items,
 .navbar-logout {
     transition: 1s;
+    cursor: pointer;
 }
 
 .nav-item {
@@ -694,6 +695,7 @@ Styling
     background-color: #000000e0;
     color: white;
     border-radius: 20px 0 0 20px;
+    min-height: 180px;
 }
 
 

@@ -9,6 +9,7 @@ import json
 
 from .models import (
     connect_recipe_with_ingredients,
+    connect_shoplist_with_ingredients_and_user,
     connect_user_to_shoplist,
     connect_user_with_recipe,
     get_all_ingredients,
@@ -19,6 +20,7 @@ from .models import (
     get_ingredients_for_recipeList,
     get_ingredients_for_user,
     get_user_recipes_all,
+    get_user_shoplists,
     insert_new_ingredient,
     insert_new_recipe,
     disconnect_recipe_from_user,
@@ -290,9 +292,6 @@ def shoplist():
         pass
 
     if request.method == "GET":
-        connect_user_to_shoplist(session["user_id"])
-
-        # shoplist = get_ingredients_for_user(session["user_id"])
         recipelist = get_user_recipes_all(session["user_id"])
 
         recipeList = []
@@ -321,10 +320,39 @@ def ing_list(recipes_checked):
         # print(shoppingList)
 
         recipes = json.loads(recipes_checked)
-        print(recipes)
 
         ingredients = get_ingredients_for_recipeList(recipes)
 
-        print(ingredients)
-
         return jsonify(ingredients)
+
+
+@login_required
+@views.route("/savedLists", methods=["GET", "POST"])
+def shopList():
+    if request.method == "POST":
+        print("Incoming")
+
+        ing_list = request.get_json()
+        ingredients = ing_list["ing_list"]
+
+        shoplist_name = ing_list["shoplist_name"]
+
+        connect_shoplist_with_ingredients_and_user(
+            ingredients, session["user_id"], shoplist_name
+        )
+
+        return "OK", 200
+
+    if request.method == "GET":
+
+        ingList = get_user_shoplists(session["user_id"])
+
+        return render_template("savedLists.html", ingLists=ingList)
+
+        # return render_template("savedLists.html", ingList=ingredients)
+
+    # if request.method == "GET":
+    #     ingredientList = json.loads(ingredient_list)
+    #     print(ingredientList)
+
+    #     return render_template("savedLists.html", ingList=ingredientList)

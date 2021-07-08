@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Index
+Create ShopLists
 {% endblock %}
 
 {% block main %}
@@ -81,6 +81,27 @@ Index
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" id="new_ing_form" name="new_ing"
                 placeholder="Type New Ingredient" type="text">
+        </div>
+
+        <div class="create_shoplist">
+
+            <form class="form-group">
+                <input autocomplete="off" class="form-control" id="shoplist_name" name="shoplist_name"
+                    placeholder="Give your shopping list a name" type="text">
+            </form>
+
+            <form>
+                <button type="button" class="btn primary" id="render_shoplist">
+                    Pre render your shoplist
+                </button>
+            </form>
+
+            <form action="/views/savedLists" method="GET">
+                <button class="btn primary" id="create_shoplist" disabled=true>
+                    Create your shopping List!
+                </button>
+            </form>
+
         </div>
 
 

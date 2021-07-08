@@ -1,7 +1,9 @@
 # from views2.views import ingredients
+from typing import Counter
 from requests.sessions import session, should_bypass_proxies
 from sqlalchemy import create_engine, Column, Integer, String, Sequence, Table
 from sqlalchemy.engine import create_engine
+import datetime
 
 from sqlalchemy.orm import (
     declarative_base,
@@ -35,6 +37,13 @@ users_shoplists = Table(
     "users_shoplists",
     Base.metadata,
     Column("user_id", Integer, ForeignKey("users.id")),
+    Column("shoplist_id", Integer, ForeignKey("shoplists.id")),
+)
+
+shoplist_ingredients = Table(
+    "shoplist_ingredients",
+    Base.metadata,
+    Column("shoplist_id", Integer, ForeignKey("shoplists.id")),
     Column("ingredient_id", Integer, ForeignKey("ingredients.id")),
 )
 
@@ -57,8 +66,8 @@ class User(Base):
     email = Column(String)
 
     recipes = relationship("Recipe", secondary=users_recipes, back_populates="users")
-    ingredients = relationship(
-        "Ingredient", secondary=users_shoplists, back_populates="users"
+    shoplists = relationship(
+        "ShopList", secondary=users_shoplists, back_populates="users"
     )
 
     def __init__(self, username, first_name, surname, pw_hash, email):
@@ -131,14 +140,31 @@ class Ingredient(Base):
     recipes = relationship(
         "Recipe", secondary=recipes_ingredients, back_populates="ingredients"
     )
-    users = relationship(
-        "User", secondary=users_shoplists, back_populates="ingredients"
+    shoplists = relationship(
+        "ShopList", secondary=shoplist_ingredients, back_populates="ingredients"
     )
 
     def __init__(self, ingredient, measure, other_info):
         self.ingredient = ingredient
         self.measure = measure
         self.other_info = other_info
+
+
+class ShopList(Base):
+    __tablename__ = "shoplists"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    date = Column(String)
+
+    ingredients = relationship(
+        "Ingredient", secondary=shoplist_ingredients, back_populates="shoplists"
+    )
+    users = relationship("User", secondary=users_shoplists, back_populates="shoplists")
+
+    def __init__(self, name, date):
+        self.name = name
+        self.date = date
 
 
 Base.metadata.create_all(bind=engine)
@@ -332,6 +358,56 @@ def get_ingredients_for_recipeList(recipe_titles):
     for ing in recipe.ingredients:
         ingredientList.append(ing.ingredient)
 
-    print(ingredientList)
     session.close()
     return ingredientList
+
+
+def connect_shoplist_with_ingredients_and_user(ingredients, user_id, shoplist_name):
+    session = Session()
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    newshopList = ShopList(shoplist_name, str(date))
+
+    new_user = session.query(User).filter(User.id == user_id).first()
+    new_ingredients = (
+        session.query(Ingredient).filter(Ingredient.ingredient.in_(ingredients)).all()
+    )
+
+    old_ings = []
+    for ing in new_ingredients:
+        old_ings.append(ing.ingredient)
+
+    for new_ing in ingredients:
+        if new_ing not in old_ings:
+            insert_new_ingredient(new_ing)
+
+    new_ingredients = (
+        session.query(Ingredient).filter(Ingredient.ingredient.in_(ingredients)).all()
+    )
+
+    newshopList.users.append(new_user)
+
+    newshopList.ingredients.extend(new_ingredients)
+
+    session.add(newshopList)
+    session.commit()
+    session.close()
+
+
+def get_user_shoplists(user_id):
+    session = Session()
+
+    user = session.query(User).filter(User.id == user_id).first()
+
+    ingList = []
+
+    for shoplist in user.shoplists:
+        shop_ingList = []
+        for ing in shoplist.ingredients:
+            shop_ingList.append(ing.ingredient)
+        ingList.append(shop_ingList)
+
+    session.close()
+    return ingList

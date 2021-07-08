@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Shopping Lists
+{% endblock %}
+
+
+
+
+
+
+{% block main %}
+
+<div class="main_header">
+    <h2>
+        Your saved shopping lists
+    </h2>
+</div>
+
+
+{% for ingList in ingLists %}
+
+<ul>
+    {% for item in ingList %}
+
+    <li>
+        {{item}}
+    </li>
+
+    {% endfor %}
+</ul>
+
+
+{% endfor %}
+
+
+
+{% endblock %}

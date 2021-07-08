@@ -132,20 +132,11 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // async function get_ingredients() {
-    //     try {
-    //         const shoplist = await fetch("/views/ing_list")
-    //         const text = await shoplist.json()
-    //         console.log(text)
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-
     async function get_recipes(rec_title) {
         try {
             let checked_recipe = JSON.stringify(rec_title);
             url_rec = "/views/ing_list/".concat(checked_recipe)
+            console.log(url_rec);
             let recipes = await fetch(url_rec)
             let recipe_text = await recipes.json()
             console.log(recipe_text)
@@ -157,6 +148,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 node_li.classList.add("ing_list");
 
                 let node_label = document.createElement("label");
+                node_label.classList.add("ing_lbl");
 
                 let node_input = document.createElement("input");
                 node_input.type = "checkbox";
@@ -283,6 +275,7 @@ window.addEventListener('DOMContentLoaded', function () {
             list_item.classList.add("ing_list");
 
             let label_item = document.createElement("label");
+            label_item.classList.add("ing_lbl");
 
             let checkbox_item = document.createElement("input");
             checkbox_item.type = "checkbox";
@@ -307,7 +300,73 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
-    document.onselectionchange = () => {
-        console.log("Selection change");
+
+
+    // Send fetch request with shopping list
+
+    async function send_shopList(ing_list, shoplist_name) {
+
+        // let checked_ingList = JSON.stringify(ing_list);
+        // url_rec = "/views/shopList/".concat(checked_ingList);
+
+
+        // try {
+        //     let response = await fetch(url_rec);
+        //     let response_text = await response.json();
+        //     console.log(response_text);
+        // } catch (err) {
+        //     console.log(err);
+        // }
+
+        fetch("/views/savedLists", {
+
+            // Type of data
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+
+            method: 'POST',
+
+            body: JSON.stringify({
+                'ing_list': ing_list,
+                'shoplist_name': shoplist_name
+
+            })
+        })
+            .then(response => response.text())
+            .then((text) => {
+                console.log("Response: ");
+                console.log(text);
+            })
     }
+
+
+
+    // Create and save shopping List and open new html page with saved shopping lists
+    document.querySelector("#render_shoplist").addEventListener("click", event => {
+        let ing_labels = document.querySelectorAll(".ing_lbl");
+        let shoplist_name = document.querySelector("#shoplist_name").value
+
+        let ing_list = [];
+
+        ing_labels.forEach((ing) => {
+            ing_list.push(ing.textContent);
+        });
+
+        console.log(ing_list);
+
+
+        document.querySelector("#create_shoplist").removeAttribute("disabled");
+
+        send_shopList(ing_list, shoplist_name);
+
+
+
+        // let recipes = await fetch(url_rec)
+        // let recipe_text = await recipes.json()
+    });
+
+
+
 });
