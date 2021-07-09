@@ -36,7 +36,7 @@ Index
                 <div class="recipe-name">
                     <h2>{{ recipe.title }}</h2>
 
-                    <a href="{{ recipe.url }}" target="_blank" class="nav-item">Go to recipe </a>
+                    <a href="{{ recipe.url }}" target="_blank" class="btn noborder">Go to recipe </a>
 
                     <form class="delete_button" action="/views/delete" method="POST">
                         <button type="submit" value="{{ recipe.title }}" name="delete"
@@ -121,7 +121,6 @@ Index
         <ion-icon name="arrow-up-circle-outline" class="targeter" size="large"></ion-icon>
     </a>
 </div>
-
 
 
 

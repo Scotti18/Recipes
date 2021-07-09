@@ -320,6 +320,26 @@ def disconnect_recipe_from_user(rec_title, user_id):
     session.close()
 
 
+def disconnect_shoplist_from_user(rec_id, user_id):
+    session = Session()
+    user = session.query(User).filter(User.id == user_id).first()
+    shoplist_todelete = session.query(ShopList).filter(ShopList.id == rec_id).first()
+
+    new_shoplists = []
+    for shoplist in user.shoplists:
+        if shoplist != shoplist_todelete:
+            new_shoplists.append(shoplist)
+
+    user.shoplists = new_shoplists
+
+    if len(shoplist_todelete.users) == 0:
+        session.delete(shoplist_todelete)
+
+    session.add(user)
+    session.commit()
+    session.close()
+
+
 def connect_user_to_shoplist(user_id):
     session = Session()
     user = session.query(User).filter(User.id == user_id).first()
@@ -404,10 +424,19 @@ def get_user_shoplists(user_id):
     ingList = []
 
     for shoplist in user.shoplists:
+        # shop_ingList = []
+        # # for ing in shoplist.ingredients:
+        # #     shop_ingList.append(ing.ingredient)
+        # # ingList.append(shop_ingList)
+        list_dict = {}
+        list_dict["id"] = shoplist.id
+        list_dict["name"] = shoplist.name
+        list_dict["date"] = shoplist.date
         shop_ingList = []
         for ing in shoplist.ingredients:
             shop_ingList.append(ing.ingredient)
-        ingList.append(shop_ingList)
+        list_dict["ingredients"] = shop_ingList
+        ingList.append(list_dict)
 
     session.close()
     return ingList

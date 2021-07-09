@@ -165,15 +165,16 @@ REGISTER
 .form-group {
     padding: 10px;
     margin: 0 auto;
-    width: fit-content;
+    width: 100%;
 }
 
 
 .form-control {
     border: 2px solid #dadada;
     border-radius: 7px;
-    height: 30px;
-    width: 300px;
+    height: 35px;
+    font-weight: bold;
+    width: 50%;
 }
 
 .form-control:focus {
@@ -195,20 +196,27 @@ button {
 }
 
 .btn {
-    font-size: 13px;
+    font-size: 14px;
     background-color: rgb(0,0,0); /*Black fallback color*/
     background-color: rgba(0,0,0, 0.85); /*Black w/opacity */
     color: honeydew;
     border: 2px solid #dadada;
     border-radius: 7px;
     transition: all 0.5s ease-in-out;
+    cursor: pointer;
 
 }
 
 .noborder {
-    font-size: 10px;
+    font-size: 14px;
     border: none;
-    background-color: rgba(0,0,0,0.01);
+    background-color: rgba(0,0,0,0.1);
+    padding: 5px;
+}
+
+.btn.primary {
+    width: 250px;
+    height: 60px;
 }
 
 
@@ -296,7 +304,7 @@ Main Views
     border-radius: 15px;
 
     /* box-shadow: rgba(3, 8, 20, 0.1) 0px 0.5rem 0.8rem, rgba(2, 8, 20, 0.1) 0px 0.27rem 0.575rem; */
-    box-shadow: 1em 1em 2em .25em rgba(0,0,0,.2);
+    box-shadow: 0.5em 0.5em 1em .125em rgba(0,0,0,.2);
     background-color: rgba(3, 8, 20, 0.1);
     
     height: fit-content;
@@ -790,6 +798,7 @@ Styling
     display: grid;
     grid-column-gap: 10px;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    transition: 2s ease-in-out all;
 }
 
 .ing_subContainer {
@@ -801,13 +810,135 @@ Styling
     /* background: linear-gradient(rgba(240, 236, 234, 0.925),rgba(26, 20, 15, 0)); */
 
     margin: 30px auto;
-    min-height: 150px;
+    min-height: 100px;
 }
 
 .ing_subContainer:hover {
     transform: scale(1.005);
     transition: 0.25s all ease-in-out;
 }
+
+.form-group.flex {
+    display: flex;
+    flex-direction: row;
+    border: solid 1px black;
+    padding: 0;
+    border-radius: 10px;
+    width: 60%;
+    margin: 25px auto;
+}
+
+.shoplist-buttons {
+    margin-top: 50px;
+}
+
+#new_ing_form {
+    flex-grow: 2;
+    border: none;
+    border-radius: 10px 0 0 10px;
+}
+
+#new_ing {
+    border-radius: 0 10px 10px 0;
+    
+}
+
+#shoplist_name {
+    border: none;
+    background: inherit;
+    color: white;
+    border: 1px grey solid;
+    margin-top: 15px;
+    
+}
+
+#render_shoplist {
+    transition: all ease-in-out 0.5s;
+    flex-grow: 2;
+    border-radius: 10px 0 0 10px;
+    border: none;
+}
+
+#create_shoplist {
+    height: 60px;
+    width: 50px;
+    border-radius: 0 10px 10px 0;
+    font-size: 30px;
+    color: black;
+    background: rgb(204, 172, 124);
+}
+
+#create_shoplist:hover,
+#render_shoplist:hover {
+    transform: none;
+    border: 2px white solid;
+}
+
+.form-group.flex.commit {
+    margin-top: 100px;
+    width: 40%;
+    border: none;
+}
+
+
+
+.checkmark {
+    background-color: rgba(62, 165, 62, 0.61);
+    width: 100px;
+    height: 0;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 5px;
+    color: white;
+    transition: all ease-in-out 0.5s;
+}
+
+
+
+/*
+
+Saved
+Shoplist
+Styles 
+
+
+
+*/
+
+
+
+.wrapper.shopping {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.card.shopping {
+    font-size: 16px;
+    background: linear-gradient(rgba(64, 142, 214, 0.719),rgba(240, 236, 234, 0.925) 40%);
+    border: 2px solid white;
+    cursor: auto;
+}
+
+
+.card.shopping:nth-of-type(3n) {
+    background: linear-gradient(rgba(240, 236, 234, 0.925) 20%,rgba(91, 180, 128, 0.719));
+}
+
+.card.shopping:nth-of-type(3n + 1) {
+    background: linear-gradient(rgba(240, 236, 234, 0.925) 20%,rgba(197, 144, 46, 0.719), rgba(240, 236, 234, 0.925));
+}
+
+.card.shopping:hover {
+    border: 2px solid black;
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -818,6 +949,10 @@ Styling
 Media 
 Queries 
 */
+
+
+
+
 @media (max-width: 700px) {
     .card-content {
         font-size: 10px;
@@ -833,6 +968,14 @@ Queries
     .ings_new {
         margin: 0;
         padding: 0;
+    }
+
+    .form-group.flex {
+        width: 80%;
+    }
+
+    .form-group.flex.commit {
+        width: 60%;
     }
     
 }

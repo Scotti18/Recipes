@@ -12,6 +12,7 @@ from .models import (
     connect_shoplist_with_ingredients_and_user,
     connect_user_to_shoplist,
     connect_user_with_recipe,
+    disconnect_shoplist_from_user,
     get_all_ingredients,
     get_all_recipes,
     get_id_of_existing_or_inserted_recipe,
@@ -286,6 +287,20 @@ def delete():
 
 
 @login_required
+@views.route("/delete_shoplist", methods=["GET", "POST"])
+def delete_shoplist():
+    if request.method == "POST":
+        shoplist_id = request.form.get("delete_shoplist")
+        disconnect_shoplist_from_user(shoplist_id, session["user_id"])
+
+        flash("Shoplist successfully removed")
+        return redirect("/views/savedLists")
+
+    if request.method == "GET":
+        return redirect("/views/savedLists")
+
+
+@login_required
 @views.route("/shoplist", methods=["GET", "POST"])
 def shoplist():
     if request.method == "POST":
@@ -345,9 +360,9 @@ def shopList():
 
     if request.method == "GET":
 
-        ingList = get_user_shoplists(session["user_id"])
+        ingList_dicts = get_user_shoplists(session["user_id"])
 
-        return render_template("savedLists.html", ingLists=ingList)
+        return render_template("savedLists.html", ingLists=ingList_dicts)
 
         # return render_template("savedLists.html", ingList=ingredients)
 

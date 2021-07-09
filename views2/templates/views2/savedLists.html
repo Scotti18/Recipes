@@ -17,21 +17,40 @@ Shopping Lists
     </h2>
 </div>
 
+<div class="wrapper shopping">
 
-{% for ingList in ingLists %}
+    {% for ingList in ingLists %}
 
-<ul>
-    {% for item in ingList %}
 
-    <li>
-        {{item}}
-    </li>
+    <div class="card shopping">
+        <h2>
+            {{ ingList["name"] }}
+        </h2>
+        <h4>
+            {{ ingList["date"] }}
+        </h4>
+
+        <ul>
+            {% for item in ingList["ingredients"] %}
+
+            <li>
+                {{item}}
+            </li>
+
+            {% endfor %}
+        </ul>
+
+        <form class="delete_button" action="/views/delete_shoplist" method="POST">
+            <button type="submit" value="{{ ingList['id'] }}" name="delete_shoplist"
+                class="btn noborder">Delete</button>
+        </form>
+
+    </div>
+
 
     {% endfor %}
-</ul>
 
-
-{% endfor %}
+</div>
 
 
 

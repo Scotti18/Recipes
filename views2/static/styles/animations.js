@@ -6,9 +6,14 @@ function closeNav() {
     document.querySelector("#mynav").style.height = "0";
 }
 
+window.onbeforeunload = () => {
+    if (window.scrollTo) window.scrollTo(0, 0);
+    if (history && history.scrollRestoration) history.scrollRestoration = "manual";
+}
 
 
 window.addEventListener('DOMContentLoaded', function () {
+    window.scrollTo(0, 0);
 
     let scroll = window.requestAnimationFrame ||
         function (callback) { window.setTimeout(callback, 1000 / 60) };
@@ -197,6 +202,14 @@ window.addEventListener('DOMContentLoaded', function () {
                 delete_recipes(recipe_title);
             }
 
+            const goto_shoplists = document.querySelector("#create_shoplist");
+            if (goto_shoplists.style.color != "black") {
+                goto_shoplists.style.backgroundColor = "rgb(204, 172, 124)";
+                goto_shoplists.style.color = "black";
+                goto_shoplists.setAttribute("disabled", true)
+            }
+
+
         });
     });
 
@@ -243,10 +256,9 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // Add new ingredient-button
+    // Add new ingredient by pressing enter or clicking the button
 
-    let newIng_button = document.querySelector("#new_ing");
-    newIng_button.addEventListener("click", () => {
+    let add_ing_func = () => {
 
         // Create a new div if it does not exist yet 
         if (document.querySelector(".ings_new") == null) {
@@ -261,8 +273,6 @@ window.addEventListener('DOMContentLoaded', function () {
             // Insert before shoplist buttons
             ing_container.appendChild(newIng_UL);
         }
-
-
 
 
         let ing_form = document.querySelector("#new_ing_form");
@@ -296,7 +306,23 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         ing_form.value = "";
+    }
+
+    // Add new ingredient-button
+
+    let newIng_button = document.querySelector("#new_ing");
+    newIng_button.addEventListener("click", () => {
+        add_ing_func();
     });
+
+    // Add new ingredient by pressing enter
+
+    document.querySelector("#new_ing_form").addEventListener("keyup", (event) => {
+        if (event.keyCode == 13) {
+            add_ing_func();
+        }
+    });
+
 
 
 
@@ -339,6 +365,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 console.log("Response: ");
                 console.log(text);
             })
+
+
     }
 
 
@@ -361,11 +389,33 @@ window.addEventListener('DOMContentLoaded', function () {
 
         send_shopList(ing_list, shoplist_name);
 
+        const goto_shoplists = document.querySelector("#create_shoplist");
+        goto_shoplists.style.backgroundColor = "rgba(62, 165, 62, 0.61)";
+        goto_shoplists.style.color = "white";
+
+        let ing_checkboxes = document.querySelectorAll(".ing_check")
+        ing_checkboxes.forEach((checkbox) => {
+            checkbox.closest("li").remove();
+        });
+
+        let recipe_checkboxes = document.querySelectorAll(".recipe_checkbox");
+        recipe_checkboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        document.querySelector("#shoplist_name").value = "";
 
 
-        // let recipes = await fetch(url_rec)
-        // let recipe_text = await recipes.json()
+        let green_checkmark = document.querySelector(".checkmark");
+        green_checkmark.style.height = "100px";
+
+        setTimeout(() => {
+            green_checkmark.style.height = 0;
+        }, 4500);
+
+
     });
+
 
 
 
