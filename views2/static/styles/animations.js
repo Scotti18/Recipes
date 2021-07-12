@@ -217,43 +217,70 @@ window.addEventListener('DOMContentLoaded', function () {
     // shopping list buttons 
 
     let mark_button = document.querySelector("#mark_ing");
-    mark_button.addEventListener("click", () => {
+    if (mark_button) {
+        mark_button.addEventListener("click", () => {
 
-        let ing_checkboxes = document.querySelectorAll(".ing_check")
+            let ing_checkboxes = document.querySelectorAll(".ing_check")
 
-        if (mark_button.value == "mark") {
-            ing_checkboxes.forEach((checkbox) => {
-                checkbox.checked = true;
-            });
-            mark_button.value = "unmark";
-            mark_button.textContent = "Unmark All";
-        } else {
-            ing_checkboxes.forEach((checkbox) => {
-                checkbox.checked = false;
-            });
-            mark_button.value = "mark";
-            mark_button.textContent = "Mark All";
-        }
-    });
+            if (mark_button.value == "mark") {
+                ing_checkboxes.forEach((checkbox) => {
+                    checkbox.checked = true;
+                });
+                mark_button.value = "unmark";
+                mark_button.textContent = "Unmark All";
+            } else {
+                ing_checkboxes.forEach((checkbox) => {
+                    checkbox.checked = false;
+                });
+                mark_button.value = "mark";
+                mark_button.textContent = "Mark All";
+            }
+        });
+    }
+
 
 
     // Delete Button for Ingredients in Shopping List
 
     let delete_button = document.querySelector("#delete_ing");
-    delete_button.addEventListener("click", () => {
+    if (delete_button) {
+        delete_button.addEventListener("click", () => {
 
-        let ing_checkboxes = document.querySelectorAll(".ing_check")
+            let ing_checkboxes = document.querySelectorAll(".ing_check")
 
-        ing_checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                checkbox.closest("li").remove();
+            ing_checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    checkbox.closest("li").remove();
+                }
+            });
+
+            let mark_button = document.querySelector("#mark_ing");
+            mark_button.value = "mark";
+            mark_button.textContent = "Mark All";
+
+
+            // Store ingredient list as value of a hidden form to be accessed by flask
+            // every time user adds ingredient (and deletes one)
+            let hidden_form = document.querySelector("#store_ingredients")
+
+            // Only for creation of recipe -> if hidden form exists
+            if (hidden_form) {
+                // All ingredients added to the list
+                let ing_labels = document.querySelectorAll(".ing_lbl");
+
+                // Create new array with the actual ingredients names
+                let ing_list = [];
+                ing_labels.forEach((ing) => {
+                    ing_list.push(ing.textContent);
+                });
+
+
+                // set value of hidden form to all ingredients
+                hidden_form.value = ing_list;
             }
-        });
 
-        let mark_button = document.querySelector("#mark_ing");
-        mark_button.value = "mark";
-        mark_button.textContent = "Mark All";
-    });
+        });
+    }
 
 
     // Add new ingredient by pressing enter or clicking the button
@@ -303,6 +330,26 @@ window.addEventListener('DOMContentLoaded', function () {
 
             let list_ing = document.querySelector(".ings_new");
             list_ing.appendChild(list_item);
+
+            // Store ingredient list as value of a hidden form to be accessed by flask
+            // every time user adds ingredient (and deletes one)
+            let hidden_form = document.querySelector("#store_ingredients")
+
+            // Only for creation of recipe -> if hidden form exists
+            if (hidden_form) {
+                // All ingredients added to the list
+                let ing_labels = document.querySelectorAll(".ing_lbl");
+
+                // Create new array with the actual ingredients names
+                let ing_list = [];
+                ing_labels.forEach((ing) => {
+                    ing_list.push(ing.textContent);
+                });
+
+
+                // set value of hidden form to all ingredients
+                hidden_form.value = ing_list;
+            }
         }
 
         ing_form.value = "";
@@ -311,17 +358,25 @@ window.addEventListener('DOMContentLoaded', function () {
     // Add new ingredient-button
 
     let newIng_button = document.querySelector("#new_ing");
-    newIng_button.addEventListener("click", () => {
-        add_ing_func();
-    });
+    if (newIng_button) {
+        newIng_button.addEventListener("click", () => {
+            add_ing_func();
+        });
+    }
+
+
 
     // Add new ingredient by pressing enter
 
-    document.querySelector("#new_ing_form").addEventListener("keyup", (event) => {
-        if (event.keyCode == 13) {
-            add_ing_func();
-        }
-    });
+    let newIng_form = document.querySelector("#new_ing_form");
+    if (newIng_form) {
+        newIng_form.addEventListener("keyup", (event) => {
+            if (event.keyCode == 13) {
+                add_ing_func();
+            }
+        });
+    }
+
 
 
 
@@ -365,6 +420,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 console.log("Response: ");
                 console.log(text);
             })
+            .catch((err) => {
+                console.log(err)
+            })
 
 
     }
@@ -372,49 +430,103 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     // Create and save shopping List and open new html page with saved shopping lists
-    document.querySelector("#render_shoplist").addEventListener("click", event => {
-        let ing_labels = document.querySelectorAll(".ing_lbl");
-        let shoplist_name = document.querySelector("#shoplist_name").value
+    let renderShoplist_button = document.querySelector("#render_shoplist");
+    if (renderShoplist_button) {
+        renderShoplist_button.addEventListener("click", event => {
+            let ing_labels = document.querySelectorAll(".ing_lbl");
+            let shoplist_name = document.querySelector("#shoplist_name").value
 
-        let ing_list = [];
+            let ing_list = [];
 
-        ing_labels.forEach((ing) => {
-            ing_list.push(ing.textContent);
+            ing_labels.forEach((ing) => {
+                ing_list.push(ing.textContent);
+            });
+
+            console.log(ing_list);
+
+
+            document.querySelector("#create_shoplist").removeAttribute("disabled");
+
+            send_shopList(ing_list, shoplist_name);
+
+            const goto_shoplists = document.querySelector("#create_shoplist");
+            goto_shoplists.style.backgroundColor = "rgba(62, 165, 62, 0.61)";
+            goto_shoplists.style.color = "white";
+
+            let ing_checkboxes = document.querySelectorAll(".ing_check")
+            ing_checkboxes.forEach((checkbox) => {
+                checkbox.closest("li").remove();
+            });
+
+            let recipe_checkboxes = document.querySelectorAll(".recipe_checkbox");
+            recipe_checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+
+            document.querySelector("#shoplist_name").value = "";
+
+
+            let green_checkmark = document.querySelector(".checkmark");
+            green_checkmark.style.height = "100px";
+
+            setTimeout(() => {
+                green_checkmark.style.height = 0;
+            }, 4500);
+
+
         });
+    }
 
-        console.log(ing_list);
 
+    // Upload image for creation of recipe
 
-        document.querySelector("#create_shoplist").removeAttribute("disabled");
+    let image_field = document.querySelector('input[type="file"]');
+    if (image_field) {
+        image_field.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                let img = document.querySelector('img');
+                img.onload = () => {
+                    URL.revokeObjectURL(img.src);  // no longer needed, free memory
+                }
 
-        send_shopList(ing_list, shoplist_name);
-
-        const goto_shoplists = document.querySelector("#create_shoplist");
-        goto_shoplists.style.backgroundColor = "rgba(62, 165, 62, 0.61)";
-        goto_shoplists.style.color = "white";
-
-        let ing_checkboxes = document.querySelectorAll(".ing_check")
-        ing_checkboxes.forEach((checkbox) => {
-            checkbox.closest("li").remove();
+                img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+            }
         });
+    }
 
-        let recipe_checkboxes = document.querySelectorAll(".recipe_checkbox");
-        recipe_checkboxes.forEach((checkbox) => {
-            checkbox.checked = false;
-        });
+    // async function send_createRecipe(ing_list, shoplist_name, instructions, nutrients, image) {
+    //     fetch("/views/create_recipe", {
 
-        document.querySelector("#shoplist_name").value = "";
+    //         // Type of data
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json'
+    //         },
+
+    //         method: 'POST',
+
+    //         body: JSON.stringify({
+    //             'ing_list': ing_list,
+    //             'name': shoplist_name,
+    //             'instructions': instructions,
+    //             'nutrients': nutrients,
+    //             'image': image
+    //         })
+    //     })
+    //         .then(response => response.text())
+    //         .then((text) => {
+    //             console.log("Response: ");
+    //             console.log(text);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    // }
 
 
-        let green_checkmark = document.querySelector(".checkmark");
-        green_checkmark.style.height = "100px";
 
-        setTimeout(() => {
-            green_checkmark.style.height = 0;
-        }, 4500);
+    // q
 
-
-    });
 
 
 

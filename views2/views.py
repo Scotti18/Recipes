@@ -2,13 +2,26 @@ from sys import set_asyncgen_hooks
 from sqlalchemy.util.langhelpers import ellipses_string
 from .helpers import format_ingredient, key_exists, login_required
 import requests
-from flask import Blueprint, render_template, request, session, redirect, flash, jsonify
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    session,
+    redirect,
+    flash,
+    jsonify,
+    url_for,
+    current_app,
+)
+from werkzeug.utils import secure_filename
 from recipe_scrapers import scrape_me
 import json
+import os
 
 
 from .models import (
     connect_recipe_with_ingredients,
+    connect_recipe_with_ingredients_and_user,
     connect_shoplist_with_ingredients_and_user,
     connect_user_to_shoplist,
     connect_user_with_recipe,
@@ -33,6 +46,8 @@ views = Blueprint(
     template_folder="../views2/templates/views2",
     static_folder="../views2/static/styles",
 )
+
+ALLOWED_EXTENSIONS = {"txt", "pdf", "png", "jpg", "jpeg", "gif"}
 
 
 @views.route("/", methods=["GET", "POST"])
@@ -339,6 +354,88 @@ def ing_list(recipes_checked):
         ingredients = get_ingredients_for_recipeList(recipes)
 
         return jsonify(ingredients)
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@login_required
+@views.route("/create_recipe", methods=["GET", "POST"])
+def create_recipe():
+    if request.method == "POST":
+        print("Incoming")
+
+        # recipe_data = request.get_json()
+
+        # rec_title = recipe_data["name"]
+        # rec_instructions = recipe_data["instructions"]
+        # rec_ingredients = recipe_data["ing_list"]
+        # scrape_url = "None"
+        # rec_image = recipe_data["image"]
+        # rec_calories = recipe_data["nutrients"]
+
+        rec_title = request.form.get("recipe_name")
+        rec_instructions = request.form.get("recipe_instructions")
+        rec_ingredients_cs = request.form.get("store_ingredients")
+        rec_ingredients = rec_ingredients_cs.split(",") if rec_ingredients_cs else []
+
+        rec_calories = request.form.get("recipe_nutrients")
+
+        scrape_url = "None"
+        # Nutrtion information
+        rec_carbs = "N/A"
+        rec_fibre = "N/A"
+        rec_sugar = "N/A"
+        rec_protein = "N/A"
+        rec_fats = "N/A"
+        rec_sat_fats = "N/A"
+        rec_serving = "N/A"
+
+        # Dealing with the image -> a little more complicated
+
+        if "file" not in request.files:
+            flash("No File Part")
+            return redirect(request.url)
+
+        file = request.files["file"]
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == "":
+            flash("No selected file")
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+
+            file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
+            file.save(file_path)
+
+            recipe_image = "styles/images/" + filename
+
+        if not (recipe_image):
+            recipe_image = "styles/images/" + "food_platter.jpg"
+
+        connect_recipe_with_ingredients_and_user(
+            rec_title,
+            rec_instructions,
+            rec_ingredients,
+            scrape_url,
+            recipe_image,
+            rec_calories,
+            rec_carbs,
+            rec_fibre,
+            rec_sugar,
+            rec_protein,
+            rec_fats,
+            rec_sat_fats,
+            rec_serving,
+            session["user_id"],
+        )
+
+        return redirect("/views/ingredients")
+
+    if request.method == "GET":
+        return redirect("/views/ingredients")
 
 
 @login_required

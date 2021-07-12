@@ -333,6 +333,9 @@ def disconnect_shoplist_from_user(rec_id, user_id):
     user.shoplists = new_shoplists
 
     if len(shoplist_todelete.users) == 0:
+        for ingredient in shoplist_todelete.ingredients:
+            if len(ingredient.recipes) == 0 and len(ingredient.shoplists) == 1:
+                session.delete(ingredient)
         session.delete(shoplist_todelete)
 
     session.add(user)
@@ -412,6 +415,69 @@ def connect_shoplist_with_ingredients_and_user(ingredients, user_id, shoplist_na
     newshopList.ingredients.extend(new_ingredients)
 
     session.add(newshopList)
+    session.commit()
+    session.close()
+
+
+def connect_recipe_with_ingredients_and_user(
+    rec_title,
+    rec_instructions,
+    rec_ingredients,
+    scrape_url,
+    rec_image,
+    rec_calories,
+    rec_carbs,
+    rec_fibre,
+    rec_sugar,
+    rec_protein,
+    rec_fats,
+    rec_sat_fats,
+    rec_serving,
+    user_id,
+):
+    session = Session()
+
+    newRecipe = Recipe(
+        rec_title,
+        rec_instructions,
+        scrape_url,
+        rec_image,
+        rec_calories,
+        rec_carbs,
+        rec_fibre,
+        rec_sugar,
+        rec_protein,
+        rec_fats,
+        rec_sat_fats,
+        rec_serving,
+    )
+
+    new_user = session.query(User).filter(User.id == user_id).first()
+    new_ingredients = (
+        session.query(Ingredient)
+        .filter(Ingredient.ingredient.in_(rec_ingredients))
+        .all()
+    )
+
+    old_ings = []
+    for ing in new_ingredients:
+        old_ings.append(ing.ingredient)
+
+    for new_ing in rec_ingredients:
+        if new_ing not in old_ings:
+            insert_new_ingredient(new_ing)
+
+    new_ingredients = (
+        session.query(Ingredient)
+        .filter(Ingredient.ingredient.in_(rec_ingredients))
+        .all()
+    )
+
+    newRecipe.users.append(new_user)
+
+    newRecipe.ingredients.extend(new_ingredients)
+
+    session.add(newRecipe)
     session.commit()
     session.close()
 

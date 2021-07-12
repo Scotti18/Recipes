@@ -63,9 +63,73 @@ Index
 
     </div>
 
-
-
     {% endfor %}
+</div>
+
+<div class="flex center-items">
+    <h1 class=" jumbotron-heading">Or create your own Recipe</h1>
+    <p class="lead text-muted">Add Ingredients, Instructions, an Image and the Nutrients</p>
+
+    <form class="flex center-items" method="POST" action="/views/create_recipe" enctype="multipart/form-data">
+        <div class="form-container">
+            <input autocomplete="off" color="black" class="form-control" id="shoplist_name" name="recipe_name"
+                placeholder="Give your shopping list a name" type="text">
+
+            <textarea rows="6" cols="60" required class="textarea" id="create_instructions" name="recipe_instructions"
+                placeholder="Type instructions in here" type="text"></textarea>
+            <textarea rows="6" cols="60" required autocomplete="off" class="textarea" id="create_nutrients"
+                name="recipe_nutrients" placeholder="Type Nutrients in here" type="text"></textarea>
+        </div>
 
 
-    {% endblock %}
+        <div class="ing_subContainer">
+            <h4>
+                Ingredients
+            </h4>
+            <ul class="all_new_ingredients">
+
+            </ul>
+            <input type="hidden" name="store_ingredients" id="store_ingredients">
+            <div class="shoplist-buttons">
+                <button type="button" tabindex="-1" class="btn noborder" id="delete_ing">
+                    Delete marked
+                </button>
+                <button type="button" tabindex="-1" class="btn noborder" id="mark_ing" value="mark">
+                    Mark All
+                </button>
+            </div>
+        </div>
+
+
+        <div class="form-group flex">
+            <input autocomplete="off" autofocus class="form-control" id="new_ing_form" name="new_ing"
+                placeholder="Type New Ingredient" type="text">
+            <button type="button" class="btn" id="new_ing">
+                Add Ingredient
+            </button>
+        </div>
+
+        <input type='file' name="file" required />
+        <br><img id="myImg" src="#">
+
+
+
+
+        <ion-icon name="checkmark" size="large" class="checkmark"></ion-icon>
+
+        <div class="form-group flex commit">
+            <input type="submit" class="btn primary" value="Create your own Recipe" id="create_recipe">
+
+            <form action="/create_recipe" method="GET">
+                <button class="btn noborder" id="goto_recipe" disabled=true>
+                    <ion-icon name="chevron-forward-circle"></ion-icon>
+                </button>
+            </form>
+        </div>
+    </form>
+
+
+</div>
+
+
+{% endblock %}

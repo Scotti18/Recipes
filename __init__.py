@@ -5,9 +5,17 @@ from datetime import timedelta
 
 
 def create_app():
+
+    # Upload Folder
+    UPLOAD_FOLDER = (
+        r"D:\Programming\Own Projects\Recipes_struct\views2\static\styles\images"
+    )
+
     app = Flask(__name__)
     # templates
+
     app.config["TEMPLATES_AUTO_RELOAD"] = True
+    app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
     # stop caches
     @app.after_request

@@ -153,12 +153,27 @@ REGISTER
 
 
 
+.flex {
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
 
+#myImg {
+    width: 30%;
+    height: auto;
+}
+
+.center-items {
+    justify-content: center;
+    align-items: center;
+}
 
 
 .form-container {
     margin: 40px auto;
-    width: 400px;
+    width: fit-content;
     text-align: center;
 }
 
@@ -219,6 +234,9 @@ button {
     height: 60px;
 }
 
+.round {
+    border-radius: 10px;
+}
 
 
 
@@ -419,10 +437,10 @@ Cards
     white-space: nowrap;
 
 }
-
+/* 
 ::-webkit-scrollbar {
     display: none;
-}
+} */
 
 .photobanner img {
     margin: 15px;
@@ -528,7 +546,8 @@ Cards
 }
 .accordion-item {
     text-align: center;
-    overflow: scroll;
+    overflow: hidden;
+
     
 }
 
@@ -551,7 +570,7 @@ Cards
 
 
 .collapse-field {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     max-height: 0;
     transition: all 1s;
@@ -846,20 +865,22 @@ Styling
 #shoplist_name {
     border: none;
     background: inherit;
-    color: white;
+    color: black;
     border: 1px grey solid;
     margin-top: 15px;
-    
+    width: 30%;
 }
 
-#render_shoplist {
+#render_shoplist,
+#create_recipe {
     transition: all ease-in-out 0.5s;
     flex-grow: 2;
     border-radius: 10px 0 0 10px;
     border: none;
 }
 
-#create_shoplist {
+#create_shoplist,
+#goto_recipe {
     height: 60px;
     width: 50px;
     border-radius: 0 10px 10px 0;
