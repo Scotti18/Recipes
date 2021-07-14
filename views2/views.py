@@ -380,17 +380,17 @@ def create_recipe():
         rec_ingredients_cs = request.form.get("store_ingredients")
         rec_ingredients = rec_ingredients_cs.split(",") if rec_ingredients_cs else []
 
-        rec_calories = request.form.get("recipe_nutrients")
-
-        scrape_url = "None"
         # Nutrtion information
-        rec_carbs = "N/A"
+        rec_calories = request.form.get("recipe_calories")
+        rec_carbs = request.form.get("recipe_carbs")
+        rec_protein = request.form.get("recipe_protein")
+        rec_fats = request.form.get("recipe_fats")
         rec_fibre = "N/A"
         rec_sugar = "N/A"
-        rec_protein = "N/A"
-        rec_fats = "N/A"
         rec_sat_fats = "N/A"
-        rec_serving = "N/A"
+        rec_serving = "1"
+
+        scrape_url = "None"
 
         # Dealing with the image -> a little more complicated
 

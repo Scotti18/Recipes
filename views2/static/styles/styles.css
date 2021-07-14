@@ -19,12 +19,39 @@ body {
 
 
 main {
-    margin: 80px 0;
+    margin: 0;
     opacity: 1;
 }
 
+textarea {
+    resize: none;
+}
 
+.main_all {
+    margin-top: 100px;
+}
 
+::-webkit-scrollbar {
+    border-radius: 15px;
+  }
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: white; 
+    border-radius: 15px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #081720e0; 
+    border-radius: 15px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #16425e80; 
+    
+  }
 
 .shoplist {
     animation: transitionIn 1.5s forwards;
@@ -54,7 +81,7 @@ NAVBAR
 
 .navbar-container {
     background-color: rgb(0,0,0); /*Black fallback color*/
-    background-color: rgba(0,0,0, 0.85); /*Black w/opacity */
+    background-color: #081720e0; /*Black w/opacity */
 
     z-index: 1;
     display: flex;
@@ -97,6 +124,9 @@ NAVBAR
 .open {
     opacity: 0;
 }
+.height {
+    height: 1px;
+}
 
 .navbar-icon:hover {
     color: #9ecaed;
@@ -130,13 +160,20 @@ Layout
 .img-container {
     height: 600px;
     width: 100%;
-    background-image: url(./images/food_platter.jpg);
-    margin-top: 63px;
+    margin-top: ;
     background-repeat: no-repeat;
     background-size: cover;
-    background-attachment: fixed;
+    
     background-position: center;
 }
+.img_index {
+    background-image: url(./images/food-bg1.jpeg);
+}
+.img_shoplist {
+    background-image: url(./images/food_platter.jpg);
+    background-attachment: fixed;
+}
+
 
 
 
@@ -155,14 +192,34 @@ REGISTER
 
 .flex {
     display: flex;
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 #myImg {
-    width: 30%;
-    height: auto;
+    width: 45%;
+    margin: 0 auto;
+    opacity: 0;
+    will-change: opacity;
+    transition: all 0.5s;
+}
+
+.min_width {
+    width: 70%;
+}
+
+
+.margin_0_auto {
+    margin: 100px auto;
+    padding: 80px 60px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    background-position: center;
+    background-image: url(./images/food_platter.jpg);
+    border-radius: 50%/900px 300px 900px 300px;
+    
 }
 
 .center-items {
@@ -170,17 +227,50 @@ REGISTER
     align-items: center;
 }
 
+#search_recipe {
+    background-color: #081720e0;
+    color: white;
+    position: relative;
+    bottom: 140px;
+}
 
 .form-container {
-    margin: 40px auto;
-    width: fit-content;
+    box-shadow: 0.5em 0.5em 1em 0.125em rgb(0 0 0 / 20%);
+    margin: 30px auto;
     text-align: center;
+    display: grid;
+    grid-template-rows: repeat(auto-fit, minmax(10px, 1fr));
+    grid-gap: 5px;
+    justify-items: center;
+    align-content: center;
+    background-color: whitesmoke;
+    width: 85%;
+    border-radius: 15px;
+    padding-bottom: 5px;
 }
+
 
 .form-group {
     padding: 10px;
     margin: 0 auto;
     width: 100%;
+}
+
+.form-group.flex {
+    display: flex;
+    flex-direction: row;
+    border: none;
+    padding: 0;
+    border-radius: 10px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+
+.form-group.flex.commit {
+    margin: 50px auto 20px auto;
+    width: 40%;
+    border: none;
 }
 
 
@@ -189,7 +279,7 @@ REGISTER
     border-radius: 7px;
     height: 35px;
     font-weight: bold;
-    width: 50%;
+    flex-grow: 2;
 }
 
 .form-control:focus {
@@ -220,6 +310,15 @@ button {
     transition: all 0.5s ease-in-out;
     cursor: pointer;
 
+}
+
+.btn.nohover {
+    width: 50px;
+    cursor: auto;
+}
+
+.btn.nohover:hover {
+    transform: none;
 }
 
 .noborder {
@@ -430,6 +529,8 @@ Cards
     
     margin: 50px auto;
     background: white;
+    border-radius: 15px 15px 10px 10px;
+    box-shadow: 0.5em 0.5em 1em .125em rgba(0,0,0,.2);;
 }
 
 .photobanner {
@@ -703,9 +804,6 @@ Styling
 */
 
 
-.main_header {
-    margin-bottom: 80px;
-}
 
 .main_block {
 
@@ -719,7 +817,7 @@ Styling
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     padding: 13px;
-    background-color: #000000e0;
+    background-color: #081720e0;
     color: white;
     border-radius: 20px 0 0 20px;
     min-height: 180px;
@@ -789,7 +887,7 @@ Styling
     min-height: 400px;
     max-height: 600px;
     width: 85%;
-    background-color: #000000e0;
+    background-color: #081720e0;
     position: absolute;
     z-index: 0;
     border-radius: 0 20px 20px 0;
@@ -809,6 +907,8 @@ Styling
 .ing_list {
     text-align: start;
     list-style: none;
+    transition: opacity 2000ms;
+    will-change: opacity;
     
 }
 
@@ -829,22 +929,12 @@ Styling
     /* background: linear-gradient(rgba(240, 236, 234, 0.925),rgba(26, 20, 15, 0)); */
 
     margin: 30px auto;
-    min-height: 100px;
+    
 }
 
 .ing_subContainer:hover {
     transform: scale(1.005);
     transition: 0.25s all ease-in-out;
-}
-
-.form-group.flex {
-    display: flex;
-    flex-direction: row;
-    border: solid 1px black;
-    padding: 0;
-    border-radius: 10px;
-    width: 60%;
-    margin: 25px auto;
 }
 
 .shoplist-buttons {
@@ -865,10 +955,10 @@ Styling
 #shoplist_name {
     border: none;
     background: inherit;
-    color: black;
+    color: inherit;
     border: 1px grey solid;
     margin-top: 15px;
-    width: 30%;
+    width: 60%;
 }
 
 #render_shoplist,
@@ -890,16 +980,14 @@ Styling
 }
 
 #create_shoplist:hover,
+#create_recipe:hover,
+#goto_recipe:hover,
 #render_shoplist:hover {
     transform: none;
     border: 2px white solid;
 }
 
-.form-group.flex.commit {
-    margin-top: 100px;
-    width: 40%;
-    border: none;
-}
+
 
 
 
@@ -930,6 +1018,7 @@ Styles
 
 .wrapper.shopping {
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    margin-top: 50px;
 }
 
 .card.shopping {
@@ -954,14 +1043,68 @@ Styles
 
 
 
+/*
+
+Custom
+Styled
+ELements
+
+*/
+
+#yin-yang {
+    width: 96px;
+    box-sizing: content-box;
+    height: 48px;
+    background: #eee;
+    border-color: #081720e0;
+    border-style: solid;
+    border-width: 2px 2px 50px 2px;
+    border-radius: 100%;
+    position: relative;
+    margin: 40px auto 190px auto;
+    animation: rotate 5s infinite linear;
+  }
+  #yin-yang::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: #eee;
+    border: 18px solid #081720e0;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+    box-sizing: content-box;
+  }
+  #yin-yang::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #081720e0;
+    border: 18px solid #eee;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+    box-sizing: content-box;
+  }
+
+  @keyframes rotate{
+    from{ transform: rotate(-360deg); }
+    to{ transform: rotate(360deg); }
+}
 
 
+ion-icon {
+    font-size: 56px;
+}
 
 
-
-
-
-
+footer {
+    height: 400px;
+    width: 100%;
+    background-color: #081720e0;
+}
 
 
     
@@ -981,6 +1124,11 @@ Queries
     .btn-noborder {
         font-size: 10px;
     }
+
+    #create_recipe_form {
+        width: 100%;
+    }
+
     
 
     .all_ingredients,
@@ -998,7 +1146,15 @@ Queries
     .form-group.flex.commit {
         width: 60%;
     }
+
+    .form-container {
+        margin: 5px auto;
+    }
     
+    textarea {
+        width: 20em;
+        resize: none;
+    }
 }
 
 
@@ -1013,12 +1169,18 @@ Queries
     .ing_container {
         width: 89%;
     }
+    .margin_0_auto {
+        padding: 10px 10px;
+        width: 90%;
 }
 
 
 @media (max-width: 600px) {
     .cookbook {
         width: 98%;
+    }
+    .margin_0_auto {
+        border-radius: 0;
     }
 
 }
@@ -1028,3 +1190,4 @@ Queries
         grid-column: span 2;
     }
 }
+

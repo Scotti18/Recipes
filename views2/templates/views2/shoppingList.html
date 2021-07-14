@@ -6,6 +6,10 @@ Create ShopLists
 
 {% block main %}
 
+<div class="img-container img_shoplist">
+</div>
+
+
 <div class="main_header">
     <h2>
         Choose your Recipes
@@ -63,6 +67,9 @@ Create ShopLists
         </div>
 
         <div class="ing_subContainer">
+            <div class="main_header">
+                <h3>Ingredients</h3>
+            </div>
             <ul class="all_ingredients">
                 <ul class="ings">
 
@@ -82,17 +89,18 @@ Create ShopLists
                     Mark All
                 </button>
             </div>
+
+            <div class="form-group flex">
+                <input autocomplete="off" class="form-control" id="new_ing_form" name="new_ing"
+                    placeholder="Type New Ingredient" type="text">
+                <button class="btn" id="new_ing">
+                    Add
+                </button>
+            </div>
         </div>
 
 
 
-        <div class="form-group flex">
-            <input autocomplete="off" autofocus class="form-control" id="new_ing_form" name="new_ing"
-                placeholder="Type New Ingredient" type="text">
-            <button class="btn" id="new_ing">
-                Add new Ingredient
-            </button>
-        </div>
 
 
         <ion-icon name="checkmark" size="large" class="checkmark"></ion-icon>
@@ -125,12 +133,6 @@ Create ShopLists
 
 
 
-
-<div class="back-to-top">
-    <a class="targeter" href="#mainblock">
-        <ion-icon name="arrow-up-circle-outline" class="targeter" size="large"></ion-icon>
-    </a>
-</div>
 
 {% endblock %}
 

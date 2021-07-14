@@ -11,44 +11,48 @@ Shopping Lists
 
 {% block main %}
 
-<div class="main_header">
-    <h2>
-        Your saved shopping lists
-    </h2>
-</div>
+<div class="main_all">
 
-<div class="wrapper shopping">
-
-    {% for ingList in ingLists %}
-
-
-    <div class="card shopping">
+    <div class="main_header">
         <h2>
-            {{ ingList["name"] }}
+            Your saved shopping lists
         </h2>
-        <h4>
-            {{ ingList["date"] }}
-        </h4>
-
-        <ul>
-            {% for item in ingList["ingredients"] %}
-
-            <li>
-                {{item}}
-            </li>
-
-            {% endfor %}
-        </ul>
-
-        <form class="delete_button" action="/views/delete_shoplist" method="POST">
-            <button type="submit" value="{{ ingList['id'] }}" name="delete_shoplist"
-                class="btn noborder">Delete</button>
-        </form>
-
     </div>
 
+    <div class="wrapper shopping">
 
-    {% endfor %}
+        {% for ingList in ingLists %}
+
+
+        <div class="card shopping">
+            <h2>
+                {{ ingList["name"] }}
+            </h2>
+            <h4>
+                {{ ingList["date"] }}
+            </h4>
+
+            <ul>
+                {% for item in ingList["ingredients"] %}
+
+                <li>
+                    {{item}}
+                </li>
+
+                {% endfor %}
+            </ul>
+
+            <form class="delete_button" action="/views/delete_shoplist" method="POST">
+                <button type="submit" value="{{ ingList['id'] }}" name="delete_shoplist"
+                    class="btn noborder">Delete</button>
+            </form>
+
+        </div>
+
+
+        {% endfor %}
+
+    </div>
 
 </div>
 

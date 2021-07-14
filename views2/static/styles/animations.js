@@ -6,14 +6,9 @@ function closeNav() {
     document.querySelector("#mynav").style.height = "0";
 }
 
-window.onbeforeunload = () => {
-    if (window.scrollTo) window.scrollTo(0, 0);
-    if (history && history.scrollRestoration) history.scrollRestoration = "manual";
-}
 
 
 window.addEventListener('DOMContentLoaded', function () {
-    window.scrollTo(0, 0);
 
     let scroll = window.requestAnimationFrame ||
         function (callback) { window.setTimeout(callback, 1000 / 60) };
@@ -309,7 +304,7 @@ window.addEventListener('DOMContentLoaded', function () {
             ing_form.placeholder = "You have to type in something";
         } else {
             let list_item = document.createElement("li");
-            list_item.classList.add("ing_list");
+            list_item.classList.add("ing_list", "open");
 
             let label_item = document.createElement("label");
             label_item.classList.add("ing_lbl");
@@ -330,6 +325,16 @@ window.addEventListener('DOMContentLoaded', function () {
 
             let list_ing = document.querySelector(".ings_new");
             list_ing.appendChild(list_item);
+            requestAnimationFrame(() => {
+                list_item.classList.remove("open");
+            })
+
+            const subContainer = document.querySelector(".ing_subContainer");
+
+            requestAnimationFrame(() => {
+                subContainer.classList.remove("height");
+            })
+
 
             // Store ingredient list as value of a hidden form to be accessed by flask
             // every time user adds ingredient (and deletes one)
@@ -357,7 +362,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // Add new ingredient-button
 
-    let newIng_button = document.querySelector("#new_ing");
+    const newIng_button = document.querySelector("#new_ing");
     if (newIng_button) {
         newIng_button.addEventListener("click", () => {
             add_ing_func();
@@ -368,7 +373,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // Add new ingredient by pressing enter
 
-    let newIng_form = document.querySelector("#new_ing_form");
+    const newIng_form = document.querySelector("#new_ing_form");
     if (newIng_form) {
         newIng_form.addEventListener("keyup", (event) => {
             if (event.keyCode == 13) {
@@ -376,6 +381,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
 
 
 
@@ -484,7 +490,8 @@ window.addEventListener('DOMContentLoaded', function () {
     if (image_field) {
         image_field.addEventListener('change', function () {
             if (this.files && this.files[0]) {
-                let img = document.querySelector('img');
+                let img = document.querySelector('#myImg');
+                img.style.opacity = "1";
                 img.onload = () => {
                     URL.revokeObjectURL(img.src);  // no longer needed, free memory
                 }
@@ -492,6 +499,18 @@ window.addEventListener('DOMContentLoaded', function () {
                 img.src = URL.createObjectURL(this.files[0]); // set src to blob url
             }
         });
+    }
+
+
+    window.onresize = () => {
+        let window_width = window.innerWidth;
+        let ing_button = document.querySelector('#new_ing');
+        if (window_width < 900) {
+            ing_button.textContent = "Add";
+        } else {
+            ing_button.textContent = "Add Ingredient";
+        }
+
     }
 
     // async function send_createRecipe(ing_list, shoplist_name, instructions, nutrients, image) {

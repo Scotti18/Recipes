@@ -17,75 +17,136 @@ Index
 {% endif %}
 {% endwith %} -->
 
+<div class="img-container img_index">
+</div>
 
-<section class="form-container">
-    <div class="container">
-        <h1 class="jumbotron-heading">Search Google Recipes</h1>
-        <p class="lead text-muted">Get the top nine results of Recipes for your query!</p>
-        <form action="/views" method="POST">
-            <div class="input-group mb-3">
-                <input type="text" name="query" class="form-control">
-            </div>
-            <p>
-                <button type="submit" name="submit" value="search" class="btn btn-primary my-2">Recipe Search</button>
-            </p>
-        </form>
-    </div>
-</section>
-
-
-<div class="wrapper">
-    {% for website in websites %}
-
-    <div class="card">
-        <img src="{{ website.image }}" class="card-img-top" alt="...">
-        <div class="card-wrapper">
-            <div class="card-content">
-                <div class="card-body">
-                    <h5 class="card-title">{{ website.title }}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                        the card's
-                        content.
-                    </p>
+<div class="top">
+    <section class="form-container" id="search_recipe">
+        <div class="container">
+            <h1 class="jumbotron-heading">Search Google Recipes</h1>
+            <p class="lead text-muted">Get the top nine results of Recipes for your query!</p>
+            <form action="/views" method="POST">
+                <div class="input-group mb-3">
+                    <input type="text" name="query" class="form-control">
                 </div>
-                <div class="card-buttons">
-                    <a href="{{ website.url }}" class="btn noborder btn-primary" target="_blank">View
-                        Recipe</a>
-                    <form action="/views/ingredients" , method="POST">
-                        <button href="#" class="btn noborder btn-primary" value="{{ website.url }}" name="search_url">
-                            Add to cookbook
-                        </button>
-                    </form>
+                <p>
+                    <button type="submit" name="submit" value="search" class="btn btn-primary my-2">Recipe
+                        Search</button>
+                </p>
+            </form>
+        </div>
+    </section>
+
+
+    <div class="wrapper">
+        {% for website in websites %}
+
+        <div class="card">
+            <img src="{{ website.image }}" class="card-img-top" alt="...">
+            <div class="card-wrapper">
+                <div class="card-content">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ website.title }}</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's
+                            content.
+                        </p>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="{{ website.url }}" class="btn noborder btn-primary" target="_blank">View
+                            Recipe</a>
+                        <form action="/views/ingredients" , method="POST">
+                            <button href="#" class="btn noborder btn-primary" value="{{ website.url }}"
+                                name="search_url">
+                                Add to cookbook
+                            </button>
+                        </form>
+                    </div>
                 </div>
+
             </div>
 
         </div>
 
+        {% endfor %}
     </div>
-
-    {% endfor %}
 </div>
 
-<div class="flex center-items">
-    <h1 class=" jumbotron-heading">Or create your own Recipe</h1>
-    <p class="lead text-muted">Add Ingredients, Instructions, an Image and the Nutrients</p>
+<div id="yin-yang">
 
-    <form class="flex center-items" method="POST" action="/views/create_recipe" enctype="multipart/form-data">
-        <div class="form-container">
-            <input autocomplete="off" color="black" class="form-control" id="shoplist_name" name="recipe_name"
+</div>
+
+
+<div class="margin_0_auto">
+
+
+
+    <form method="POST" action="/views/create_recipe" enctype="multipart/form-data" class="form-container"
+        id="create_recipe_form">
+        <div class="main_header">
+            <h2 class=" jumbotron-heading">Or create your own Recipe</h2>
+
+            <p class="lead text-muted">Add Ingredients, Instructions, an Image and the Nutrients</p>
+        </div>
+        <div class="">
+
+            <div class="main_header">
+                <h3>Name</h3>
+            </div>
+            <input autocomplete=" off" color="black" class="form-control" id="shoplist_name" name="recipe_name"
                 placeholder="Give your shopping list a name" type="text">
+
+            <div class="main_header">
+                <h3>Instructions</h3>
+            </div>
 
             <textarea rows="6" cols="60" required class="textarea" id="create_instructions" name="recipe_instructions"
                 placeholder="Type instructions in here" type="text"></textarea>
-            <textarea rows="6" cols="60" required autocomplete="off" class="textarea" id="create_nutrients"
-                name="recipe_nutrients" placeholder="Type Nutrients in here" type="text"></textarea>
+            <!-- <textarea rows="6" cols="60" required autocomplete="off" class="textarea" id="create_nutrients"
+                name="recipe_nutrients" placeholder="Type Nutrients in here" type="text"></textarea> -->
+
+            <div class="main_header">
+                <h3>Nutritional Information</h3>
+            </div>
+
+            <div class="form-group flex">
+                <div class="btn nohover">
+                    Calories
+                </div>
+                <input autocomplete="off" class="form-control" name="recipe_calories" maxlength="10"
+                    placeholder="Calories" type="text">
+            </div>
+            <div class="form-group flex">
+                <div class="btn nohover">
+                    Carbs
+                </div>
+                <input autocomplete="off" class="form-control" name="recipe_carbs" maxlength="10" placeholder="Carbs"
+                    type="text">
+            </div>
+            <div class="form-group flex">
+                <div class="btn nohover">
+                    Protein
+                </div>
+                <input autocomplete="off" class="form-control" name="recipe_protein" maxlength="10"
+                    placeholder="Protein" type="text">
+            </div>
+            <div class="form-group flex">
+                <div class="btn nohover">
+                    Fats
+                </div>
+                <input autocomplete="off" class="form-control" name="recipe_fats" maxlength="10" placeholder="Fats"
+                    type="text">
+            </div>
+
+
         </div>
 
 
-        <div class="ing_subContainer">
-            <h4>
-                Ingredients
-            </h4>
+        <div class="main_header">
+            <h3>Ingredients</h3>
+            <p>(Do not use any commas within the ingredients)</p>
+        </div>
+        <div class="ing_subContainer min_width">
             <ul class="all_new_ingredients">
 
             </ul>
@@ -98,27 +159,25 @@ Index
                     Mark All
                 </button>
             </div>
+            <div class="form-group flex">
+                <input autocomplete="off" class="form-control" id="new_ing_form" name="new_ing"
+                    placeholder="Type New Ingredient" type="text">
+                <button type="button" class="btn" id="new_ing">
+                    Add
+                </button>
+            </div>
         </div>
 
-
-        <div class="form-group flex">
-            <input autocomplete="off" autofocus class="form-control" id="new_ing_form" name="new_ing"
-                placeholder="Type New Ingredient" type="text">
-            <button type="button" class="btn" id="new_ing">
-                Add Ingredient
-            </button>
+        <div class="main_header">
+            <h3>Add an image</h3>
         </div>
 
         <input type='file' name="file" required />
         <br><img id="myImg" src="#">
 
 
-
-
-        <ion-icon name="checkmark" size="large" class="checkmark"></ion-icon>
-
         <div class="form-group flex commit">
-            <input type="submit" class="btn primary" value="Create your own Recipe" id="create_recipe">
+            <input type="submit" class="btn primary" value="Create Recipe" id="create_recipe">
 
             <form action="/create_recipe" method="GET">
                 <button class="btn noborder" id="goto_recipe" disabled=true>

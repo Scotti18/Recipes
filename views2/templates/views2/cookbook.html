@@ -6,122 +6,123 @@ Index
 
 {% block main %}
 
+<div class="main_all">
 
-<div class="main_header">
-    <h1>Your Cookbook</h1>
-</div>
+    <div class="top-section">
+        <div class="main_header">
+            <h1>Your Cookbook</h1>
+        </div>
 
-<div class="pb-container">
-    <div class="photobanner">
+        <div class="pb-container">
+            <div class="photobanner">
+
+                {% for recipe in recipes %}
+                <a href="#{{'rec' ~ recipe.id }}">
+                    <img src="{{ recipe.img }}" alt="">
+                </a>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="cookbook">
 
         {% for recipe in recipes %}
-        <a href="#{{'rec' ~ recipe.id }}">
-            <img src="{{ recipe.img }}" alt="">
-        </a>
+        <div class="recipe_header" id="{{'rec' ~ recipe.id }}">
+            <div class="{{ 'recipe_title ' ~ recipe.id }}">
+
+
+                <div class="recipe_image" style="{{ 'background-image:' ~ 'url(' ~ recipe.img ~ ');' }}">
+                    <div class="recipe-name">
+                        <h2>{{ recipe.title }}</h2>
+
+                        <a href="{{ recipe.url }}" target="_blank" class="btn noborder">Go to recipe </a>
+
+                        <form class="delete_button" action="/views/delete" method="POST">
+                            <button type="submit" value="{{ recipe.title }}" name="delete"
+                                class="btn noborder">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <div class="accordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="btn collapse-button instructions">
+                                Instructions
+                            </button>
+                        </h2>
+                        <div id="{{ 'two' ~ recipe.id }}" class="collapse-field instructions open_coll">
+                            <div class="accordion-body">
+                                {{ recipe.instructions }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="btn collapse-button ingredients">
+                                Ingredients
+                            </button>
+                        </h2>
+                        <div id="{{ 'one' ~ recipe.id }}" class="collapse-field ingredients open_coll">
+                            <div class="accordion-body ingredients">
+                                {% for ing in recipe.ingredients %}
+                                {% if loop.index/5 % 2 == 0 or loop.index/5 == 1%}
+                                <p></p>
+                                {% endif %}
+                                <li>{{ ing }}</li>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="btn collapse-button nutrients" data-bs-target="{{ '#three' ~ recipe.id }}">
+                                Nutrients
+                            </button>
+                        </h2>
+                        <div id="{{ 'three' ~ recipe.id }}" class="collapse-field three open_coll">
+                            <div class="accordion-body">
+                                <li>Calories: {{recipe.calories}}</li>
+                                <li>Carbs: {{recipe.carbs}}</li>
+                                <li>Fibre: {{recipe.fibre}}</li>
+                                <li>Sugar: {{recipe.sugar}}</li>
+                                <li>Protein: {{recipe.protein}}</li>
+                                <li>Fats: {{recipe.fats}}</li>
+                                <li>Saturated Fats: {{recipe.sat_fats}}</li>
+                                <li>Serving Size: {{recipe.serving_size}}</li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <!-- <hr width="50%"> -->
+
         {% endfor %}
 
-    </div>
-</div>
 
-
-
-
-<div class="cookbook">
-
-    {% for recipe in recipes %}
-    <div class="recipe_header" id="{{'rec' ~ recipe.id }}">
-        <div class="{{ 'recipe_title ' ~ recipe.id }}">
-
-
-            <div class="recipe_image" style="{{ 'background-image:' ~ 'url(' ~ recipe.img ~ ');' }}">
-                <div class="recipe-name">
-                    <h2>{{ recipe.title }}</h2>
-
-                    <a href="{{ recipe.url }}" target="_blank" class="btn noborder">Go to recipe </a>
-
-                    <form class="delete_button" action="/views/delete" method="POST">
-                        <button type="submit" value="{{ recipe.title }}" name="delete"
-                            class="btn noborder">Delete</button>
-                    </form>
-                </div>
-            </div>
-
-
-            <div class="accordion">
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="btn collapse-button instructions">
-                            Instructions
-                        </button>
-                    </h2>
-                    <div id="{{ 'two' ~ recipe.id }}" class="collapse-field instructions open_coll">
-                        <div class="accordion-body">
-                            {{ recipe.instructions }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="btn collapse-button ingredients">
-                            Ingredients
-                        </button>
-                    </h2>
-                    <div id="{{ 'one' ~ recipe.id }}" class="collapse-field ingredients open_coll">
-                        <div class="accordion-body ingredients">
-                            {% for ing in recipe.ingredients %}
-                            {% if loop.index/5 % 2 == 0 or loop.index/5 == 1%}
-                            <p></p>
-                            {% endif %}
-                            <li>{{ ing }}</li>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="btn collapse-button nutrients" data-bs-target="{{ '#three' ~ recipe.id }}">
-                            Nutrients
-                        </button>
-                    </h2>
-                    <div id="{{ 'three' ~ recipe.id }}" class="collapse-field three open_coll">
-                        <div class="accordion-body">
-                            <li>Calories: {{recipe.calories}}</li>
-                            <li>Carbs: {{recipe.carbs}}</li>
-                            <li>Fibre: {{recipe.fibre}}</li>
-                            <li>Sugar: {{recipe.sugar}}</li>
-                            <li>Protein: {{recipe.protein}}</li>
-                            <li>Fats: {{recipe.fats}}</li>
-                            <li>Saturated Fats: {{recipe.sat_fats}}</li>
-                            <li>Serving Size: {{recipe.serving_size}}</li>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-        </div>
     </div>
 
-    <!-- <hr width="50%"> -->
-
-    {% endfor %}
-
-
 </div>
 
-<div class="back-to-top">
-    <a class="targeter" href="#mainblock">
-        <ion-icon name="arrow-up-circle-outline" class="targeter" size="large"></ion-icon>
-    </a>
-</div>
 
 
 
