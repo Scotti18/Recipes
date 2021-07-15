@@ -18,6 +18,13 @@ Shopping Lists
             Your saved shopping lists
         </h2>
     </div>
+    {% if get_flashed_messages() %}
+    <header>
+        <div class="flash">
+            {{ get_flashed_messages() | join(" ") }}
+        </div>
+    </header>
+    {% endif %}
 
     <div class="wrapper shopping">
 

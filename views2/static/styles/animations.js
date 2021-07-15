@@ -13,8 +13,7 @@ window.addEventListener('DOMContentLoaded', function () {
     let scroll = window.requestAnimationFrame ||
         function (callback) { window.setTimeout(callback, 1000 / 60) };
 
-    // add .recipe_header within the quotation marks, comma separated and before card 
-    let elementsToShow = document.querySelectorAll(".card, .recipe_header");
+
 
     // Helper function from: http://stackoverflow.com/a/7557433/274826
     function isElementInViewport(el) {
@@ -36,14 +35,30 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     function loop() {
-        elementsToShow.forEach(function (element) {
+        // add .recipe_header within the quotation marks, comma separated and before card 
+        let cardsToShow = document.querySelectorAll(".card");
+        let recipeHeaderToShow = document.querySelectorAll(".recipe_header");
+        let blocksToShow = document.querySelectorAll(".blocks");
+
+        cardsToShow.forEach(function (element) {
             if (isElementInViewport(element)) {
                 element.classList.add("is-visible");
+                element.classList.add("rotate");
             }
-            // else {
-            //     element.classList.remove("is-visible");
-            // }
         });
+        recipeHeaderToShow.forEach(function (element) {
+            if (isElementInViewport(element)) {
+                element.classList.add("is-visible");
+                element.classList.add("swoop-in");
+            }
+        });
+        blocksToShow.forEach(function (element) {
+            if (isElementInViewport(element)) {
+                element.classList.add("is-visible");
+                element.classList.add("swoop-in");
+            }
+        });
+
 
         scroll(loop);
     }
@@ -375,9 +390,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const newIng_form = document.querySelector("#new_ing_form");
     if (newIng_form) {
-        newIng_form.addEventListener("keyup", (event) => {
+        newIng_form.addEventListener("keydown", (event) => {
             if (event.keyCode == 13) {
                 add_ing_func();
+                event.preventDefault();
             }
         });
     }
@@ -393,17 +409,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     async function send_shopList(ing_list, shoplist_name) {
 
-        // let checked_ingList = JSON.stringify(ing_list);
-        // url_rec = "/views/shopList/".concat(checked_ingList);
-
-
-        // try {
-        //     let response = await fetch(url_rec);
-        //     let response_text = await response.json();
-        //     console.log(response_text);
-        // } catch (err) {
-        //     console.log(err);
-        // }
 
         fetch("/views/savedLists", {
 

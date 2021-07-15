@@ -5,30 +5,32 @@ Register
 {% endblock %}
 
 {% block main %}
-<style>
-    body {
-        text-align: center;
-    }
 
-    form {
-        width: fit-content;
-        margin: auto;
-    }
-</style>
+<div class="main_all">
+    {% if get_flashed_messages() %}
+    <header>
+        <div class="flash">
+            {{ get_flashed_messages() | join(" ") }}
+        </div>
+    </header>
+    {% endif %}
 
-<form action="/auth/register" method="post">
-    <div class="form-container">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+    <form action="/auth/register" method="post">
+        <div class="form-container">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username"
+                    type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="confirmation" placeholder="Confirmation" type="password">
+            </div>
+            <button class="btn btn-primary" type="submit">Register</button>
         </div>
-        <div class="form-group">
-            <input class="form-control" name="password" placeholder="Password" type="password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" name="confirmation" placeholder="Confirmation" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
-    </div>
 
-</form>
+    </form>
+</div>
+
 {% endblock %}

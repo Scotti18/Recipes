@@ -3,12 +3,15 @@ Layout
 */
 html {
     scroll-behavior: smooth !important;
+    min-height: 100%;
+    position: relative;
 }
 
 body {
     margin: 0;
     font-family: "Noto Sans", sans-serif;
     width: 100%;
+
 }
 
 ::selection {
@@ -33,6 +36,9 @@ textarea {
 
 ::-webkit-scrollbar {
     border-radius: 15px;
+    width: 9px;
+    transition: width 2s;
+    will-change: width;
   }
 
 /* Track */
@@ -47,6 +53,9 @@ textarea {
     border-radius: 15px;
   }
   
+  ::-webkit-scrollbar:hover {
+      width: 15px;
+  }
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #16425e80; 
@@ -74,10 +83,26 @@ a {
     color: honeydew;
 }
 
+footer {
+    margin-top: 350px;
+}
 
 /* 
 NAVBAR
 */
+
+.blocks {
+    opacity: 0;
+    transition: all 1s ease-in;
+    margin: 100px auto;
+}
+.left {
+    transform: translateX(200px);
+}
+.right {
+    transform: translateX(-200px);
+}
+
 
 .navbar-container {
     background-color: rgb(0,0,0); /*Black fallback color*/
@@ -171,7 +196,8 @@ Layout
 }
 .img_shoplist {
     background-image: url(./images/food_platter.jpg);
-    background-attachment: fixed;
+    background-size: cover;
+    border-bottom-right-radius: 65%;
 }
 
 
@@ -219,6 +245,9 @@ REGISTER
     background-position: center;
     background-image: url(./images/food_platter.jpg);
     border-radius: 50%/900px 300px 900px 300px;
+
+    position: relative;
+    height: 1310px;
     
 }
 
@@ -243,7 +272,7 @@ REGISTER
     grid-gap: 5px;
     justify-items: center;
     align-content: center;
-    background-color: whitesmoke;
+    background-color: #f9f4eef7;
     width: 85%;
     border-radius: 15px;
     padding-bottom: 5px;
@@ -302,8 +331,7 @@ button {
 
 .btn {
     font-size: 14px;
-    background-color: rgb(0,0,0); /*Black fallback color*/
-    background-color: rgba(0,0,0, 0.85); /*Black w/opacity */
+    background-color: #081720e0; /*Black w/opacity */
     color: honeydew;
     border: 2px solid #dadada;
     border-radius: 7px;
@@ -443,10 +471,6 @@ Main Views
     background-repeat: no-repeat;
 }
 
-.is-visible {
-    opacity: 1;
-    transform: rotateZ(-10deg);
-}
 
 
 
@@ -520,6 +544,12 @@ Cards
 .main_header {
     text-align: center;
 }
+.margin-t-b {
+    margin: 70px auto;
+}
+.margin-t {
+    margin-top: 20px;
+}
 
 .pb-container {
     width: 70%;
@@ -584,12 +614,6 @@ Cards
     opacity: 0;
     transform: translateX(-100px);
 }
-
-.is-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
 
 /* 
 .recipe_header:nth-of-type(1) {
@@ -912,24 +936,37 @@ Styling
     
 }
 
+.ing_lbl {
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
 .ings, .ings_new {
     margin: 0 auto;
     display: grid;
     grid-column-gap: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     transition: 2s ease-in-out all;
 }
 
+#grid-100px {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+
+
 .ing_subContainer {
-    border: 2px solid black;
     border-radius: 15px;
     padding: 20px;
     box-shadow: rgb(3 8 20 / 10%) 0px 0.5rem 0.8rem, rgb(2 8 20 / 10%) 0px 0.27rem 0.575rem;
-    background: linear-gradient(rgba(240, 236, 234, 0.925),rgba(156, 112, 76, 0.719));
+    background: linear-gradient(rgba(240, 236, 234, 0.925) 40%,rgb(247, 228, 203));
     /* background: linear-gradient(rgba(240, 236, 234, 0.925),rgba(26, 20, 15, 0)); */
 
     margin: 30px auto;
     
+}
+#sub_blue {
+    background: linear-gradient(30deg, #081720e0, transparent);
 }
 
 .ing_subContainer:hover {
@@ -950,6 +987,10 @@ Styling
 #new_ing {
     border-radius: 0 10px 10px 0;
     
+}
+
+.create_shoplist {
+    color: white;
 }
 
 #shoplist_name {
@@ -977,6 +1018,10 @@ Styling
     font-size: 30px;
     color: black;
     background: rgb(204, 172, 124);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #create_shoplist:hover,
@@ -1099,6 +1144,10 @@ ion-icon {
     font-size: 56px;
 }
 
+ion-icon.right-arrow {
+    font-size: 32px;
+}
+
 
 footer {
     height: 400px;
@@ -1107,7 +1156,42 @@ footer {
 }
 
 
+
+
+
+
+
     
+/*
+
+Animation 
+Styles
+
+*/
+
+
+.is-visible {
+    opacity: 1;
+}
+.rotate {
+    transform: rotate(0);
+}
+.swoop-in {
+    transform: translateX(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 Media 
@@ -1179,9 +1263,9 @@ Queries
     .cookbook {
         width: 98%;
     }
-    .margin_0_auto {
+    /* .margin_0_auto {
         border-radius: 0;
-    }
+    } */
 
 }
 
@@ -1191,3 +1275,6 @@ Queries
     }
 }
 
+@media only screen and (max-width: 768px){
+    background-size: 100% 100vh;
+ }

@@ -8,127 +8,142 @@ Create ShopLists
 
 <div class="img-container img_shoplist">
 </div>
+{% if get_flashed_messages() %}
+<header>
+    <div class="flash">
+        {{ get_flashed_messages() | join(" ") }}
+    </div>
+</header>
+{% endif %}
+
+<div class="blocks left ">
+    <div class="main_header margin-t-b">
+        <h2>
+            Choose your Recipes
+        </h2>
+        <h4>
+            1. Select any recipes of which you want to include the ingredients
+        </h4>
+    </div>
 
 
-<div class="main_header">
-    <h2>
-        Choose your Recipes
-    </h2>
-    <h4>
-        1. Select any recipes of which you want to include the ingredients
-    </h4>
-</div>
+    <div class="main_block">
 
 
-<div class="main_block">
+        <div class="shoplist_container">
+            {% for item in recipeList %}
 
+            <div class="shoplist">
+                <ul>
+                    <input class="recipe_checkbox checkbox" type="checkbox" value="{{ item }}" id="{{ item }}">
+                    <label for="{{ item }}">{{ item }}</label>
+                </ul>
+            </div>
 
-    <div class="shoplist_container">
-        {% for item in recipeList %}
-
-        <div class="shoplist">
-            <ul>
-                <input class="recipe_checkbox checkbox" type="checkbox" value="{{ item }}" id="{{ item }}">
-                <label for="{{ item }}">{{ item }}</label>
-            </ul>
+            {% endfor %}
         </div>
-
-        {% endfor %}
     </div>
 </div>
 
-
-<div class="main_header">
-    <h2>
-        Shopping List
-    </h2>
-    <h4>
-        2. Now delete any ingredients you already have at home or add new ones to the shopping list
-    </h4>
-</div>
-
-
-<div class="Ing_div">
-    <div class="background_block">
-
+<div class="blocks right">
+    <div class="main_header margin-t-b">
+        <h2>
+            Shopping List
+        </h2>
+        <h4>
+            2. Now delete any ingredients you already have at home or add new ones to the shopping list
+        </h4>
     </div>
 
-    <div class="ing_container">
-        <div class="create_shoplist">
 
-            <div class="form-group">
-                <input autocomplete="off" class="form-control" id="shoplist_name" name="shoplist_name"
-                    placeholder="Give your shopping list a name" type="text">
-            </div>
-
-
-
+    <div class="Ing_div">
+        <div class="background_block">
 
         </div>
 
-        <div class="ing_subContainer">
-            <div class="main_header">
-                <h3>Ingredients</h3>
+        <div class="ing_container">
+            <div class="create_shoplist">
+
+                <div class="main_header margin-t">
+                    <h3>Name of the shopping list</h3>
+                </div>
+                <div class="form-group">
+                    <input autocomplete="off" class="form-control" id="shoplist_name" name="shoplist_name"
+                        placeholder="Give your shopping list a name" type="text">
+                </div>
+
+
+
+
             </div>
-            <ul class="all_ingredients">
-                <ul class="ings">
+
+            <div class="ing_subContainer">
+                <div class="main_header">
+                    <h3>Ingredients</h3>
+                </div>
+                <ul class="all_ingredients">
+                    <ul class="ings">
+
+                    </ul>
 
                 </ul>
 
-            </ul>
+                <ul class="all_new_ingredients">
 
-            <ul class="all_new_ingredients">
+                </ul>
 
-            </ul>
+                <div class="shoplist-buttons">
+                    <button tabindex="-1" class="btn noborder" id="delete_ing">
+                        Delete marked
+                    </button>
+                    <button tabindex="-1" class="btn noborder" id="mark_ing" value="mark">
+                        Mark All
+                    </button>
+                </div>
 
-            <div class="shoplist-buttons">
-                <button tabindex="-1" class="btn noborder" id="delete_ing">
-                    Delete marked
-                </button>
-                <button tabindex="-1" class="btn noborder" id="mark_ing" value="mark">
-                    Mark All
-                </button>
+                <div class="form-group flex">
+                    <input autocomplete="off" class="form-control" id="new_ing_form" name="new_ing"
+                        placeholder="Press space to add ingredient" type="text">
+                    <button class="btn" id="new_ing">
+                        Add
+                    </button>
+                </div>
             </div>
 
-            <div class="form-group flex">
-                <input autocomplete="off" class="form-control" id="new_ing_form" name="new_ing"
-                    placeholder="Type New Ingredient" type="text">
-                <button class="btn" id="new_ing">
-                    Add
+
+
+
+
+            <ion-icon name="checkmark" size="large" class="checkmark"></ion-icon>
+
+
+            <div class="form-group flex commit">
+                <button type="button" class="btn primary" id="render_shoplist">
+                    Create your Shopping List
                 </button>
+                <form action="/views/savedLists" method="GET">
+                    <button class="btn noborder" id="create_shoplist" disabled=true>
+                        <ion-icon name="chevron-forward-circle" class="right-arrow"></ion-icon>
+                    </button>
+                </form>
             </div>
+
+
+
+
+
+
+
+
+
+
+
         </div>
-
-
-
-
-
-        <ion-icon name="checkmark" size="large" class="checkmark"></ion-icon>
-
-
-        <div class="form-group flex commit">
-            <button type="button" class="btn primary" id="render_shoplist">
-                Create your Shopping List
-            </button>
-            <form action="/views/savedLists" method="GET">
-                <button class="btn noborder" id="create_shoplist" disabled=true>
-                    <ion-icon name="chevron-forward-circle"></ion-icon>
-                </button>
-            </form>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
     </div>
+
 </div>
+
+
 
 
 

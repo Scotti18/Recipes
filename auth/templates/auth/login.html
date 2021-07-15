@@ -6,19 +6,30 @@ Log In
 
 {% block main %}
 
-<div class="intro login">
-    <p>Create your own cookbook with recipes from all over the web</p>
-    <p>Simply add them to your shopping list and stop worrying about what you need</p>
-    <p>Leftovers in the fridge? Dont know what to cook? The algorithm will find you something!</p>
+
+<div class="main_all">
+    {% if get_flashed_messages() %}
+    <header>
+        <div class="flash">
+            {{ get_flashed_messages() | join(" ") }}
+        </div>
+    </header>
+    {% endif %}
+    <div class="intro login">
+        <p>Create your own cookbook with recipes from all over the web</p>
+        <p>Simply add them to your shopping list and stop worrying about what you need</p>
+        <p>Leftovers in the fridge? Dont know what to cook? The algorithm will find you something!</p>
+    </div>
+
+    <form class="form-container" action="/auth/login" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
 </div>
 
-<form class="form-container" action="/auth/login" method="post">
-    <div class="form-group">
-        <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-    </div>
-    <div class="form-group">
-        <input class="form-control" name="password" placeholder="Password" type="password">
-    </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
-</form>
 {% endblock %}
