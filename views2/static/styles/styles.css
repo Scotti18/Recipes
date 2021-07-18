@@ -1,6 +1,10 @@
 /* 
 Layout 
 */
+* {
+    box-sizing: border-box;
+}
+
 html {
     scroll-behavior: smooth !important;
     min-height: 100%;
@@ -31,7 +35,7 @@ textarea {
 }
 
 .main_all {
-    margin-top: 100px;
+    margin-top: 180px;
 }
 
 ::-webkit-scrollbar {
@@ -43,7 +47,7 @@ textarea {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: white; 
+    background: transparent; 
     border-radius: 15px;
   }
    
@@ -80,11 +84,49 @@ textarea {
 
 a {
     text-decoration: none;
-    color: honeydew;
+}
+#text-decor {
+    text-decoration: underline #081720e0;
+    color: #081720e0;
+}
+#text-decor:hover {
+    text-decoration: none;
+}
+
+hr {
+    width: 85%;
+    margin: 50px auto;
+    color: #081720e0;
+    height: 2px;
+    background: #081720e0;
+    border: none;
 }
 
 footer {
     margin-top: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    
+}
+.logo-container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+    align-items: center;
+}
+.logos-a {
+    transform: translateY(4em) rotateZ(-5deg);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    will-change: transform, opacity;
+}
+.logos {
+    padding: 5px;
+    margin: 5px 2vw;
+    color: white;
 }
 
 /* 
@@ -112,7 +154,7 @@ NAVBAR
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 63px;
+    height: 80px;
     margin-bottom: 30px;
     position: fixed;
     top: 0;
@@ -129,6 +171,7 @@ NAVBAR
 .navbar-icon {
     font-size: 30px;
     padding-left: 10px;
+    color: honeydew;
 }
 
 .navbar-items,
@@ -138,13 +181,16 @@ NAVBAR
 }
 
 .nav-item {
-    font-size: 13px;
+    font-size: 14px;
     margin-right: 10px;
     padding: 10px;
     border-radius: 10px;
     transition: 0.6s;
     color: honeydew;
     cursor: pointer;
+}
+.underlined {
+    text-decoration: underline;
 }
 .open {
     opacity: 0;
@@ -185,7 +231,7 @@ Layout
 .img-container {
     height: 600px;
     width: 100%;
-    margin-top: ;
+    position: relative;
     background-repeat: no-repeat;
     background-size: cover;
     
@@ -199,6 +245,184 @@ Layout
     background-size: cover;
     border-bottom-right-radius: 65%;
 }
+
+.img_size_one {
+    width: 50vw;
+    border-radius: 15px;
+    height: 60vh;
+    position: relative;
+}
+
+.img_rec1 {
+    width: 16vw;
+    height: 45vh;
+    background: url(./images/rec-res.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    position: relative;
+    top: 45px;
+    
+}
+.img_rec2 {
+    width: 16vw;
+    height: 45vh;
+    background: url(./images/rec-res2.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    position: relative;
+    bottom: 45px;
+    
+}
+
+.img_board {
+    background-image: url(./images/board.jpg);
+    width: 30vw;
+}
+
+.img_one {
+    background: url(./images/search_rec.png);
+    height: 40vh;
+    width: 35vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.img_two {
+    background-image: url(./images/create_rec.png);
+}
+
+.img_three {
+    background-image: url(./images/cookbook-bg7.jpg);
+}
+
+.img_four {
+    background-image: url(./images/shopcart.jpg);
+    width: 40vw;
+}
+
+.scroll-container {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+}
+
+.flex-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+    padding: 20px 0;
+    font-size: 18px;
+    scroll-snap-align: start;
+    padding: 80px 10px;
+
+}
+#footer-scroll {
+    height: 100vh;
+    scroll-snap-align: start;
+    margin-top: 0;
+}
+.color_lemons {
+    background: url(./images/lemons.jpg);
+}
+
+.color_grey {
+    background-color: #9c8181;
+    padding: 20px 10px;
+    justify-content: space-evenly;
+}
+.color_blue {
+    background-color: rgba(55, 147, 208);
+    color: white;
+}
+
+
+.color_yellow {
+    background-color: #ffce0057;    
+}
+
+.color_green {
+    background-color: #325e1680;
+    color: white;
+}
+
+.color_coming {
+    background-image: url(./images/algorithm.jpg);
+}
+
+
+
+.text-field {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.text_three {
+    background: #f5f5f58c;
+    border-radius: 15px;
+}
+
+.text-plug {
+    position: absolute;
+    bottom: -40px;
+    left: -80px;
+    background: #081720eb;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 30%;
+    font-size: 25px;
+    border-radius: 15px;
+}
+
+
+
+
+
+/*
+
+Span
+Classes 
+
+*/
+
+
+.font_1_5 {
+    font-size: 1.5em;
+}
+
+.cover_size {
+    font-size: 6vw;
+    color: #081720e0;
+    background: #08172008;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.span_all {
+    width: 100%;
+    text-align: center;
+    font-size: 3vw;
+    font-weight: bold;
+}
+
+
+
+
+
+
 
 
 
@@ -550,6 +774,9 @@ Cards
 .margin-t {
     margin-top: 20px;
 }
+.margin_10 {
+    margin: 20px 10px;
+}
 
 .pb-container {
     width: 70%;
@@ -560,7 +787,6 @@ Cards
     margin: 50px auto;
     background: white;
     border-radius: 15px 15px 10px 10px;
-    box-shadow: 0.5em 0.5em 1em .125em rgba(0,0,0,.2);;
 }
 
 .photobanner {
@@ -939,6 +1165,7 @@ Styling
 .ing_lbl {
     word-wrap: break-word;
     cursor: pointer;
+    font-weight: bolder;
 }
 
 .ings, .ings_new {
@@ -1200,6 +1427,43 @@ Queries
 
 
 
+@media (max-width: 1100px) {
+
+    .ing_container {
+        width: 89%;
+    }
+    .margin_0_auto {
+        padding: 10px 10px;
+        width: 90%;
+}
+
+@media (max-width: 1000px) {
+    .navbar-items, 
+    .navbar-logout{
+        opacity: 0;
+    }
+    .navbar-collapse .open {
+        opacity: 1;
+    }
+    .accordion-item {
+        grid-column: span 2;
+    }
+    .pb-container {
+        width: 90%;
+    }
+    hr {
+        width: 70%;
+    }
+    .img_size_one {
+        height: 50vh;
+    }
+    .span_all {
+        font-size: 5vw;
+    }
+}
+
+
+
 
 @media (max-width: 700px) {
     .card-content {
@@ -1212,6 +1476,14 @@ Queries
     #create_recipe_form {
         width: 100%;
     }
+
+    
+    .wrapper.shopping {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        margin-top: 50px;
+    }
+
+    
 
     
 
@@ -1239,24 +1511,17 @@ Queries
         width: 20em;
         resize: none;
     }
+
+    .img_size_one {
+        height: 40vh;
+    }
+
+    .text-plug {
+        width: 80%;
+        height: 40%;
+    }
 }
 
-
-@media (max-width: 1100px) {
-    .navbar-items, 
-    .navbar-logout{
-        opacity: 0;
-    }
-    .navbar-collapse .open {
-        opacity: 1;
-    }
-    .ing_container {
-        width: 89%;
-    }
-    .margin_0_auto {
-        padding: 10px 10px;
-        width: 90%;
-}
 
 
 @media (max-width: 600px) {
@@ -1267,14 +1532,22 @@ Queries
         border-radius: 0;
     } */
 
-}
-
-@media (max-width: 1000px) {
-    .accordion-item {
-        grid-column: span 2;
+    .img_size_one {
+        height: 35vh;
+        width: 60vw;
     }
+    .text-plug {
+        bottom: -40px;
+        left: -40px;
+    }
+    .img_size_one {
+        height: 35vh;
+        width: 40vw;
+    }
+
+    .span_all {
+        font-size: 6vw;
+    }
+
 }
 
-@media only screen and (max-width: 768px){
-    background-size: 100% 100vh;
- }

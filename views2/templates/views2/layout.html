@@ -22,26 +22,26 @@
 
 
 <body>
-    <nav class="navbar-container">
+    <nav class="navbar-container" id="navbar-container">
         <a class="navbar-icon" href="/"> <span class="red">Recipe-Cookbook</span></a>
         </button>
         <div class="navbar-collapse" id="navbar">
             {% if session.user_id %}
             <div class="navbar-items logged">
-                <span class="nav-item"><a class="nav-link" href="/views/">Look for recipes</a></span>
-                <span class="nav-item"><a class="nav-link" href="/views/ingredients">Cookbook</a></span>
-                <span class="nav-item"><a class="nav-link" href="/views/shoplist">Create List</a></span>
-                <span class="nav-item"><a class="nav-link" href="/views/savedLists">Saved Lists</a></span>
+                <a class="nav-item" id="views_look" href="/views/">Look for recipes</a>
+                <a class="nav-item" id="views_ing" href="/views/ingredients">Cookbook</a>
+                <a class="nav-item" id="views_shop" href="/views/shoplist">Create List</a>
+                <a class="nav-item" id="views_saved" href="/views/savedLists">Saved Lists</a>
                 <!-- <span class="nav-item"><a class="nav-link" href="/history">History</a></span> -->
             </div>
             <div class="navbar-logout">
-                <span class="nav-item"><a href="/auth/logout">Log Out</a></span>
+                <a class="nav-item" href="/auth/logout">Log Out</a>
             </div>
             <span class="nav-item open" onclick="openNav()"><a>Open</a></span>
             {% else %}
             <div class="navbar-items notlogged">
-                <span class="nav-item"><a href="/auth/register">Register</a></span>
-                <span class="nav-item"><a href="/auth/login">Log In</a></span>
+                <a class="nav-item" id="views_register" href="/auth/register">Register</a>
+                <a class="nav-item" id="views_login" href="/auth/login">Log In</a>
             </div>
             <span class="nav-item open" onclick="openNav()"><a>Open</a></span>
             {% endif %}
@@ -91,7 +91,28 @@
     </div>
 
 
-    <footer class="small text-center text-muted">
+    <footer class="small text-center text-muted" id="footer">
+        <div class="logo-container">
+            <a href="https://www.linkedin.com/in/scotti-scholter-marichal/" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-linkedin"></ion-icon>
+            </a>
+            <a href="https://www.instagram.com/scotti.sc/?hl=en" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-instagram"></ion-icon>
+            </a>
+            <a href="https://www.facebook.com/scotti.scholter/" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-facebook"></ion-icon>
+            </a>
+            <a href="https://github.com/Scotti18" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-github"></ion-icon>
+            </a>
+            <a href="#" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-twitter" target="_blank"></ion-icon>
+            </a>
+        </div>
+
+        <div class="main_header margin_10">
+            Contact me for any ideas or contribute directly on GitHub!
+        </div>
 
     </footer>
 

@@ -5,6 +5,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth = Blueprint("auth", __name__, template_folder="templates/auth")
 
 
+@auth.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        pass
+
+    if request.method == "GET":
+        return render_template("cover.html")
+
+
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     # when login button is hit
@@ -14,27 +23,27 @@ def login():
         username = request.form.get("username")
         if not username:
             flash("Enter Username")
-            return redirect("/")
+            return redirect("/auth/login")
 
         # get and check for password
         password = request.form.get("password")
         if not password:
             flash("Enter Password")
-            return redirect("/")
+            return redirect("/auth/login")
 
         # check if username exists in database
         user = get_user(username)
         if not user:
             flash("Username does not exist")
-            return redirect("/")
+            return redirect("/auth/login")
         if user.username != username:
             flash("Username does not exist")
-            return redirect("/")
+            return redirect("/auth/login")
 
         # check if entered password and stored password match
         if not check_password_hash(user.pw_hash, password):
             flash("Username and Password do not match")
-            return redirect("/")
+            return redirect("/auth/login")
 
         # assign a session to @login_required
         session["user_id"] = user.id
@@ -42,7 +51,7 @@ def login():
 
         # redirect to main page with status logged in
         flash("Login Successfull", "info")
-        return redirect("/")
+        return redirect("/views/")
 
     else:
         return render_template("login.html")
@@ -94,7 +103,7 @@ def register():
         store_new_user(new_user, "firstname", "surname", pw_hash, "email")
 
         flash("Registered successfully", "info")
-        return redirect("/")
+        return redirect("/auth/login")
 
     else:
         return render_template("register.html")

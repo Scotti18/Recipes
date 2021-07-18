@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block main %}
+
+
+
+
+<div class="scroll-container">
+    <div class="flex-wrap color_lemons">
+        <nav class="navbar-container" id="navbar-container-scroll">
+            <a class="navbar-icon" href="/"> <span class="red">Recipe-Cookbook</span></a>
+            </button>
+            <div class="navbar-collapse" id="navbar">
+                {% if session.user_id %}
+                <div class="navbar-items logged">
+                    <a class="nav-item" href="/views/">Look for recipes</a>
+                    <a class="nav-item" href="/views/ingredients">Cookbook</a>
+                    <a class="nav-item" href="/views/shoplist">Create List</a>
+                    <a class="nav-item" href="/views/savedLists">Saved Lists</a>
+                    <!-- <span class="nav-item"><a class="nav-link" href="/history">History</a></span> -->
+                </div>
+                <div class="navbar-logout">
+                    <a class="nav-item" href="/auth/logout">Log Out</a>
+                </div>
+                <span class="nav-item open" onclick="openNav()"><a>Open</a></span>
+                {% else %}
+                <div class="navbar-items notlogged">
+                    <a class="nav-item" href="/auth/register">Register</a>
+                    <a class="nav-item" href="/auth/login">Log In</a>
+                </div>
+                <span class="nav-item open" onclick="openNav()"><a>Open</a></span>
+                {% endif %}
+            </div>
+        </nav>
+        {% if get_flashed_messages() %}
+        <header>
+            <div class="flash">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+        </header>
+        {% endif %}
+
+        <div class="main_header">
+            <h1 class="cover_size">Welcome to your favourite online cookbook</h1>
+        </div>
+    </div>
+    <div class="flex-wrap color_grey">
+        <div class="text-field span_all">
+            <p>Search trough all recipes on the internet</p>
+        </div>
+        <div class="img_rec img_rec1">
+
+        </div>
+        <div class="img-container img_size_one img_one">
+
+        </div>
+
+        <div class="img_rec img_rec2">
+
+        </div>
+
+
+        <div class="text-field">
+            <p>Choose the recipes of your liking</p>
+            <p>Then add them to your own personalized cookbok!</p>
+
+        </div>
+    </div>
+
+    <div class="flex-wrap color_blue">
+        <div class="text-field text_two">
+            <p>You want to add your <span class="font_1_5"> own masterpiece?</span></p>
+            <p>No problem!</p>
+            <p>Save delicious recipes and share them with the community</p>
+        </div>
+        <div class="img-container img_size_one  img_two">
+            <div class="text-plug">
+                Create custom recipes!
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-wrap color_yellow">
+        <div class="img-container img_size_one img_three">
+
+        </div>
+        <div class="text-field text_three">
+            <p>All your favourite recipes</p>
+            <p><span class="font_1_5">in one place</span></p>
+            <p>No more heavy cookbooks, lost recipes or hours of searching!</p>
+        </div>
+    </div>
+
+    <div class="flex-wrap color_green">
+        <div class="text-field span_all">
+            <p>Create your own customized shopping list</p>
+        </div>
+        <div class="text-field">
+
+            <p>Add the recipes to your liking, remove/add</p>
+            <p>other ingredients, give it a name and voila</p>
+
+            <a href="/auth/register"><button class="btn primary">Get Started Now!</button></a>
+        </div>
+        <div class="img-container img_size_one img_four">
+
+        </div>
+    </div>
+
+
+    <div class="flex-wrap color_coming">
+        <div class="text-field span_all">
+            <h3>Coming Soon</h3>
+        </div>
+
+        <div class="text-field text_three">
+            <p>Do you have leftovers in the fridge?</p>
+            <p>and still no idea what to cook?</p>
+            <p>Don't worry our algorithm has got you covered! (soon)</p>
+        </div>
+    </div>
+
+
+    <footer class="small text-center text-muted" id="footer-scroll">
+        <div class="logo-container">
+            <a href="https://www.linkedin.com/in/scotti-scholter-marichal/" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-linkedin"></ion-icon>
+            </a>
+            <a href="https://www.instagram.com/scotti.sc/?hl=en" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-instagram"></ion-icon>
+            </a>
+            <a href="https://www.facebook.com/scotti.scholter/" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-facebook"></ion-icon>
+            </a>
+            <a href="https://github.com/Scotti18" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-github"></ion-icon>
+            </a>
+            <a href="#" class="logos_a" target="_blank">
+                <ion-icon class="logos" name="logo-twitter" target="_blank"></ion-icon>
+            </a>
+        </div>
+
+        <div class="main_header margin_10">
+            Contact me for any ideas or contribute directly on GitHub!
+        </div>
+
+    </footer>
+    <div id="check_if_on_coverpage"></div>
+</div>
+
+
+
+
+{% endblock %}

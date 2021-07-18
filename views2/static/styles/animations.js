@@ -10,6 +10,36 @@ function closeNav() {
 
 window.addEventListener('DOMContentLoaded', function () {
 
+    const current_page = window.location.href;
+    console.log(current_page)
+
+    if (document.querySelector("#views_look_check")) {
+        document.querySelector("#views_look").classList.add("underlined");
+    }
+    if (document.querySelector("#views_ing_check")) {
+        document.querySelector("#views_ing").classList.add("underlined");
+    }
+    if (document.querySelector("#views_shop_check")) {
+        document.querySelector("#views_shop").classList.add("underlined");
+    }
+    if (document.querySelector("#views_saved_check")) {
+        document.querySelector("#views_saved").classList.add("underlined");
+    }
+    if (document.querySelector("#views_login_check")) {
+        document.querySelector("#views_login").classList.add("underlined");
+    }
+    if (document.querySelector("#views_register_check")) {
+        document.querySelector("#views_register").classList.add("underlined");
+    }
+
+    // if (current_page === "http://127.0.0.1:5000/auth/" || current_page === "http://172.20.10.7:5000/auth/") {
+    if (document.querySelector("#check_if_on_coverpage")) {
+        const navbar = document.querySelector("#navbar-container");
+        const footer = document.querySelector("#footer");
+        navbar.style.display = "none";
+        footer.style.display = "none";
+    }
+
     let scroll = window.requestAnimationFrame ||
         function (callback) { window.setTimeout(callback, 1000 / 60) };
 
@@ -39,23 +69,42 @@ window.addEventListener('DOMContentLoaded', function () {
         let cardsToShow = document.querySelectorAll(".card");
         let recipeHeaderToShow = document.querySelectorAll(".recipe_header");
         let blocksToShow = document.querySelectorAll(".blocks");
+        let footerEToShow = document.querySelectorAll(".logos_a");
 
         cardsToShow.forEach(function (element) {
             if (isElementInViewport(element)) {
-                element.classList.add("is-visible");
-                element.classList.add("rotate");
+                setTimeout(() => {
+                    element.classList.add("is-visible");
+                    element.classList.add("rotate");
+                }, 200)
+
             }
         });
         recipeHeaderToShow.forEach(function (element) {
             if (isElementInViewport(element)) {
-                element.classList.add("is-visible");
-                element.classList.add("swoop-in");
+                setTimeout(() => {
+                    element.classList.add("is-visible");
+                    element.classList.add("swoop-in");
+                }, 200)
+
             }
         });
         blocksToShow.forEach(function (element) {
             if (isElementInViewport(element)) {
-                element.classList.add("is-visible");
-                element.classList.add("swoop-in");
+                setTimeout(() => {
+                    element.classList.add("is-visible");
+                    element.classList.add("swoop-in");
+                }, 200)
+
+            }
+        });
+        footerEToShow.forEach(function (element) {
+            if (isElementInViewport(element)) {
+                setTimeout(() => {
+                    element.classList.add("is-visible");
+                    element.classList.add("rotate");
+                }, 200)
+
             }
         });
 
@@ -124,10 +173,12 @@ window.addEventListener('DOMContentLoaded', function () {
             document.querySelector(".navbar-container").style.top = "0";
 
         } else {
-            if (currScrollPos > 650) {
-                document.querySelector(".navbar-container").style.top = "-63px";
+            if (currScrollPos > 600) {
+                document.querySelector(".navbar-container").style.top = "-80px";
             }
         }
+
+
 
         if (prevScrollPos > currScrollPos) {
             let backToTop = document.querySelector(".back-to-top");
@@ -145,6 +196,57 @@ window.addEventListener('DOMContentLoaded', function () {
         prevScrollPos = currScrollPos;
 
     }
+
+
+
+    //     for starter page only
+
+    //     IMPORTANT
+    // CHANGE URL when actually switching to a real server!!!!!!!!
+    const scroll_container = document.querySelector(".scroll-container");
+    if (scroll_container) {
+        let prevDivPos = scroll_container.scrollTop;
+    }
+
+
+    // if (current_page === "http://127.0.0.1:5000/auth/" || current_page === "http://172.20.10.7:5000/auth/") {
+    if (document.querySelector("#check_if_on_coverpage")) {
+        scroll_container.onscroll = function () {
+            const scroll_container = document.querySelector(".scroll-container");
+            let currDivPos = scroll_container.scrollTop;
+
+
+            if (prevDivPos > currDivPos) {
+                document.querySelector("#navbar-container-scroll").style.top = "0";
+
+            } else {
+                document.querySelector("#navbar-container-scroll").style.top = "-80px";
+            }
+
+            if (prevDivPos > currDivPos) {
+                let backToTop = document.querySelector(".back-to-top");
+                if (backToTop) {
+                    backToTop.style.opacity = "1";
+                }
+
+            } else {
+                let backToTop = document.querySelector(".back-to-top");
+                if (backToTop) {
+                    backToTop.style.opacity = "0";
+                }
+            }
+
+            prevDivPos = currDivPos;
+
+        }
+    }
+
+
+
+
+
+
+
 
 
     async function get_recipes(rec_title) {
@@ -506,17 +608,19 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    if (document.querySelector('#new_ing')) {
+        window.onresize = () => {
+            let window_width = window.innerWidth;
+            let ing_button = document.querySelector('#new_ing');
+            if (window_width < 900) {
+                ing_button.textContent = "Add";
+            } else {
+                ing_button.textContent = "Add Ingredient";
+            }
 
-    window.onresize = () => {
-        let window_width = window.innerWidth;
-        let ing_button = document.querySelector('#new_ing');
-        if (window_width < 900) {
-            ing_button.textContent = "Add";
-        } else {
-            ing_button.textContent = "Add Ingredient";
         }
-
     }
+
 
     // async function send_createRecipe(ing_list, shoplist_name, instructions, nutrients, image) {
     //     fetch("/views/create_recipe", {
