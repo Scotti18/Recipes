@@ -113,8 +113,10 @@ def ingredients():
     # if "add to coobook is hit"
     if request.method == "POST":
         # get url for scraping from the button that was clicked
-        scrape_url = request.form.get("search_url")
-
+        if request.form.get("search_url"):
+            scrape_url = request.form.get("search_url")
+        else:
+            scrape_url = request.form.get("website-link")
         # check if the scraper works on the website
         try:
             scraper = scrape_me(scrape_url, wild_mode=True)
@@ -126,6 +128,16 @@ def ingredients():
         rec_title = scraper.title()
         if not rec_title:
             rec_title = "No Name Recipe"
+
+        # check if recipe is already in the active users' database
+        users_recipes = get_user_recipes_all(session["user_id"])
+        if len(users_recipes) != 0:
+            for user_recipe in users_recipes:
+                # if user has already added recipe -> redirect to cookbook without changing
+                if rec_title == user_recipe.title:
+                    flash("Recipe already in the cookbook")
+                    return redirect("/views/ingredients")
+
         rec_instructions = scraper.instructions()
         if not rec_instructions:
             rec_instructions = "No Instructions for recipe (Visit website)"
@@ -173,14 +185,6 @@ def ingredients():
             rec_serving = rec_nutrients["servingSize"]
         else:
             rec_serving = "N/A"
-
-        # check if recipe is already in the active users' database
-        users_recipes = get_user_recipes_all(session["user_id"])
-        if len(users_recipes) != 0:
-            for user_recipe in users_recipes:
-                # if user has already added recipe -> redirect to cookbook without changing
-                if rec_title == user_recipe.title:
-                    return redirect("/views/ingredients")
 
         # get all ingredients from database
         ing_ids = []

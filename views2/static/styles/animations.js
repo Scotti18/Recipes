@@ -10,6 +10,7 @@ function closeNav() {
 
 window.addEventListener('DOMContentLoaded', function () {
 
+
     const current_page = window.location.href;
     console.log(current_page)
 
@@ -156,12 +157,54 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     let flash = document.querySelector(".flash");
+
     setTimeout(function () {
         if (flash) {
             flash.style.opacity = "0";
+
         }
 
-    }, 3000);
+    }, 2000);
+    if (flash) {
+        flash.classList.add("moveDown")
+    }
+
+
+
+    // Keep footer away when adding ingredients
+
+    const recipeForm = document.querySelector("#create_recipe_form");
+    if (recipeForm) {
+        let rF_height_prev = recipeForm.offsetHeight;
+
+        function outputsize() {
+
+            let rF_height_curr = recipeForm.offsetHeight;
+
+            const footerToMove = document.querySelector("#footer")
+
+            let current_margin = footerToMove.currentStyle || window.getComputedStyle(footerToMove)
+            current_margin = current_margin.marginTop
+            current_margin = Number(current_margin.split("px").join(""));
+
+            let added_margin = rF_height_curr - rF_height_prev;
+
+
+            let new_margin = current_margin + added_margin + "px";
+
+            footerToMove.style.marginTop = new_margin;
+
+            rF_height_prev = rF_height_curr;
+
+
+        }
+        outputsize()
+
+        new ResizeObserver(outputsize).observe(recipeForm)
+
+    }
+
+
 
     let prevScrollPos = window.pageYOffset;
 
@@ -203,14 +246,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
     //     IMPORTANT
     // CHANGE URL when actually switching to a real server!!!!!!!!
-    const scroll_container = document.querySelector(".scroll-container");
-    if (scroll_container) {
-        let prevDivPos = scroll_container.scrollTop;
-    }
+
 
 
     // if (current_page === "http://127.0.0.1:5000/auth/" || current_page === "http://172.20.10.7:5000/auth/") {
     if (document.querySelector("#check_if_on_coverpage")) {
+        const scroll_container = document.querySelector(".scroll-container");
+        let prevDivPos = scroll_container.scrollTop;
+
         scroll_container.onscroll = function () {
             const scroll_container = document.querySelector(".scroll-container");
             let currDivPos = scroll_container.scrollTop;
@@ -608,18 +651,7 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (document.querySelector('#new_ing')) {
-        window.onresize = () => {
-            let window_width = window.innerWidth;
-            let ing_button = document.querySelector('#new_ing');
-            if (window_width < 900) {
-                ing_button.textContent = "Add";
-            } else {
-                ing_button.textContent = "Add Ingredient";
-            }
 
-        }
-    }
 
 
     // async function send_createRecipe(ing_list, shoplist_name, instructions, nutrients, image) {

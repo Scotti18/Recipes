@@ -9,3 +9,4 @@ Jinja2==2.11.3
 MarkupSafe==2.0.0
 SQLAlchemy==1.4.15
 Werkzeug==2.0.0
+

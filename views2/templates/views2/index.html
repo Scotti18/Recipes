@@ -38,14 +38,6 @@ Index
         </div>
     </section>
 
-    {% if get_flashed_messages() %}
-    <header>
-        <div class="flash">
-            {{ get_flashed_messages() | join(" ") }}
-        </div>
-    </header>
-    {% endif %}
-
     <div class="wrapper">
         {% for website in websites %}
 
@@ -63,7 +55,7 @@ Index
                     <div class="card-buttons">
                         <a href="{{ website.url }}" class="btn noborder btn-primary" target="_blank">View
                             Recipe</a>
-                        <form action="/views/ingredients" , method="POST">
+                        <form action="/views/ingredients" method="POST">
                             <button href="#" class="btn noborder btn-primary" value="{{ website.url }}"
                                 name="search_url">
                                 Add to cookbook
@@ -77,6 +69,23 @@ Index
         </div>
 
         {% endfor %}
+    </div>
+</div>
+
+<div class="main_header position-up">
+    <div class="form-container">
+        <form action="/views/ingredients" method="POST">
+            <div class="main_header">
+                <h2>Or add the link of your favourite recipe websites</h2>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" name="website-link" class="form-control">
+            </div>
+            <p>
+                <button type="submit" name="submit" value="website-link" class="btn">Add Recipe to
+                    Cookbook</button>
+            </p>
+        </form>
     </div>
 </div>
 
@@ -102,7 +111,7 @@ Index
                 <h3>Name</h3>
             </div>
             <input autocomplete=" off" color="black" class="form-control" id="shoplist_name" name="recipe_name"
-                placeholder="Give your shopping list a name" type="text">
+                placeholder="Give your recipe a name" type="text">
 
             <div class="main_header">
                 <h3>Instructions</h3>

@@ -8,7 +8,7 @@ Index
 
 <div class="main_all">
 
-    <div class="top-section">
+    <div class="form-container bg-blue">
         <div class="main_header">
             <h1>Your Cookbook</h1>
             <p>You're own simple cookbook</p>
@@ -28,13 +28,7 @@ Index
 
             </div>
         </div>
-        {% if get_flashed_messages() %}
-        <header>
-            <div class="flash">
-                {{ get_flashed_messages() | join(" ") }}
-            </div>
-        </header>
-        {% endif %}
+
 
     </div>
 

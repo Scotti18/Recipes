@@ -56,10 +56,10 @@ textarea {
     background: #081720e0; 
     border-radius: 15px;
   }
-  
+/*   
   ::-webkit-scrollbar:hover {
       width: 15px;
-  }
+  } */
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #16425e80; 
@@ -86,8 +86,9 @@ a {
     text-decoration: none;
 }
 #text-decor {
-    text-decoration: underline #081720e0;
-    color: #081720e0;
+    text-decoration: underline rgba(156, 98, 50, 0.603);
+    color: rgba(156, 98, 50, 0.603);
+    font-size: 20px;
 }
 #text-decor:hover {
     text-decoration: none;
@@ -109,8 +110,15 @@ footer {
     justify-content: center;
     align-items: center;
     color: white;
+    height: 400px;
+    width: 100%;
+    background-color: #081720e0;
     
 }
+
+
+
+
 .logo-container {
     display: flex;
     flex-wrap: wrap-reverse;
@@ -209,14 +217,39 @@ NAVBAR
     box-shadow: 0 0 10px #9ecaed;
 }
 
+header {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .flash {
     display: flex;
     height: 40px;
     opacity: 1;
     justify-content: center;
     align-items: center;
-    background-color: rgba(41, 31, 25, 0.473);
+    background-color: #081720e0;
     transition: all 0.5s;
+    color: whitesmoke;
+
+    width: 30%;
+    margin: 0 auto;
+    position: fixed;
+    top: -80px;
+    transition: all 0.5s ease-in;
+    z-index: 100;
+}
+
+.moveDown {
+    transform: translateY(180px) scale(1.1);
+
+    background-color: darkred;
+    color: white;
+    border-radius: 15px;
+
 }
 
 
@@ -362,6 +395,8 @@ Layout
 
 
 
+
+
 .text-field {
     padding: 10px;
     font-size: 20px;
@@ -483,8 +518,16 @@ REGISTER
 #search_recipe {
     background-color: #081720e0;
     color: white;
+    margin-bottom: 100px;
+}
+
+.top {
     position: relative;
     bottom: 140px;
+}
+
+.position-up {
+    margin-bottom: 180px;
 }
 
 .form-container {
@@ -501,7 +544,10 @@ REGISTER
     border-radius: 15px;
     padding-bottom: 5px;
 }
-
+.form-container.bg-blue {
+    background-color: #f9f4eef7;
+    color: #081720e0;
+}
 
 .form-group {
     padding: 10px;
@@ -533,6 +579,11 @@ REGISTER
     height: 35px;
     font-weight: bold;
     flex-grow: 2;
+    width: 100%;
+}
+
+.form-control.small {
+    width: 30%;
 }
 
 .form-control:focus {
@@ -1376,13 +1427,6 @@ ion-icon.right-arrow {
 }
 
 
-footer {
-    height: 400px;
-    width: 100%;
-    background-color: #081720e0;
-}
-
-
 
 
 
@@ -1460,6 +1504,10 @@ Queries
     .span_all {
         font-size: 5vw;
     }
+    .form-container {
+        margin: 5px auto;
+        width: 100%;
+    }
 }
 
 
@@ -1483,9 +1531,6 @@ Queries
         margin-top: 50px;
     }
 
-    
-
-    
 
     .all_ingredients,
     .all_new_ingredients,
@@ -1503,9 +1548,7 @@ Queries
         width: 60%;
     }
 
-    .form-container {
-        margin: 5px auto;
-    }
+    
     
     textarea {
         width: 20em;
@@ -1551,3 +1594,4 @@ Queries
 
 }
 
+}
